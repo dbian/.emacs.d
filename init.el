@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (set-language-environment 'UTF-8)
 (set-locale-environment "UTF-8")
 
