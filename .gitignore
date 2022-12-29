@@ -1,0 +1,5 @@
+*.elc
+#*#
+*~
+abbrev_defs
+bookmarks
