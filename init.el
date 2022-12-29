@@ -46,3 +46,17 @@
 (define-key global-map (kbd "C-c t r")               'helm-dictionary)
 
 (which-key-mode)
+
+(defun duplicate-line (&optional arg)
+  "Duplicate it. With prefix ARG, duplicate ARG times."
+  (interactive "p")
+  (next-line 
+   (save-excursion 
+     (let ((beg (line-beginning-position))
+           (end (line-end-position)))
+       (copy-region-as-kill beg end)
+       (dotimes (num arg arg)
+         (end-of-line) (newline)
+         (yank))))))
+
+(global-set-key (kbd "C-S-d") 'duplicate-line)
