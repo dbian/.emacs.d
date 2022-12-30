@@ -14,7 +14,29 @@
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
-(require 'use-package)
+
+; 设置中文字体，思源，等宽
+; 英文字体Source code pro ，等宽
+
+
+(cond
+ ((string-equal system-type "windows-nt") ; Microsoft Windows
+  
+(set-fontset-font "fontset-default" 'han "思源黑体 Medium")
+(set-face-attribute 'default nil :font (font-spec :family "Source Code Pro" :size 14))
+  )
+
+ ((string-equal system-type "darwin") ; macOS
+  ()
+;  (when (member "Menlo" (font-family-list))
+					;   (set-frame-font "Menlo" t t)))
+  )
+ ((string-equal system-type "gnu/linux") ; linux
+  (when (member "DejaVu Sans Mono" (font-family-list))
+    (set-frame-font "DejaVu Sans Mono" t t))))
+
+
+
 ;;(set-language-environment 'UTF-8)
 ;;(set-locale-environment "UTF-8")
 (custom-set-variables
