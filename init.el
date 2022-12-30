@@ -13,7 +13,8 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-
+(straight-use-package 'use-package)
+(require 'use-package)
 ;;(set-language-environment 'UTF-8)
 ;;(set-locale-environment "UTF-8")
 (custom-set-variables
