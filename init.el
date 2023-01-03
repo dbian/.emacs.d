@@ -22,8 +22,11 @@
 (cond
  ((string-equal system-type "windows-nt") ; Microsoft Windows
   
-(set-fontset-font "fontset-default" 'han "思源黑体 Medium")
+(set-fontset-font "fontset-default" 'han "思源黑体 Normal")
 (set-face-attribute 'default nil :font (font-spec :family "Source Code Pro" :size 14))
+;; 设置org mode 正文默认字号
+
+
   )
 
  ((string-equal system-type "darwin") ; macOS
@@ -68,31 +71,72 @@
 (add-hook 'prog-mode-hook 'copilot-mode 'company-mode)
 (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
 (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+(setq copilot-log-max nil)
 
+(mapc #'straight-use-package
+      '(geiser-guile geiser
+		     eglot
+		     groovy-mode
+		     company
+		     which-key
+		     company-box
+		     rainbow-delimiters
+		     orderless
+		     exec-path-from-shell
+		     magit
+		     helm
+		     paredit
+		     dashboard
+		     geiser-guile
+		     
+))		     
 
+;; Or if you use use-package
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
 
-(straight-use-package 'which-key)
-(straight-use-package 'company-box)
-;(straight-use-package 'vertico)
-(straight-use-package 'orderless)
-(straight-use-package 'exec-path-from-shell)
-(straight-use-package 'magit)
-(straight-use-package 'helm)
-(straight-use-package 'paredit)
-
-(straight-use-package 'geiser-guile)
-
+(setq dashboard-projects-backend 'project-el)
+(setq dashboard-items '((recents  . 10)
+                        (projects . 15)
+                        (bookmarks . 5)
+                        (agenda . 5)
+                        (registers . 5)))
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'hl-line-mode)
 (add-hook 'prog-mode-hook #'show-paren-mode)
-(add-hook 'lisp-mode-hook 'paredit-mode)
-(add-hook 'scheme-mode-hook 'geiser #'geiser-mode 'company-mode)
+(mapc (lambda (mode)
+	(add-hook 'prog-mode-hook mode))
+      '(rainbow-delimiters-mode
+	show-paren-mode
+	company-mode
+	))
+;(add-hook 'scheme-mode-hook 'geiser-guile )
+(add-hook 'scheme-mode-hook  #'geiser-mode)
 
+(mapc (lambda (mode)
+	(add-hook mode 'company-mode))
+      '(prog-mode-hook
+	conf-mode-hook
+	text-mode-hook
+	org-mode-hook))
+(mapc (lambda (mode)
+	(add-hook mode 'paredit-mode))
+      '(prog-mode-hook
+	conf-mode-hook
+	emacslisp-mode-hook
+	lisp-mode-hook
+	scheme-mode-hook
+	))
 
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
 (which-key-mode)
+
+;; 解决windows远程的时候报错
+(setq geiser-guile-binary "guile")
 
 (defun duplicate-line (&optional arg)
   "Duplicate it. With prefix ARG, duplicate ARG times."
@@ -202,3 +246,53 @@
     (shell-command "git push")
     )
   )
+
+(custom-set-faces
+; '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0))))
+ ;; '(org-block-begin-line ((t (:extend t :background "#f7e0c3" :foreground "gray"
+                             ;; :weight semi-bold :height 151 :family "CMU Typewriter Text"))))
+; '(org-code ((t (:foreground "#957f5f" :family "mononoki"))))
+; '(org-document-title ((t (:foreground "midnight blue" :weight bold :height 2.0))))
+; '(org-hide ((t (:foreground "#E5E9F0" :height 0.1))))
+
+; '(org-list-dt ((t (:foreground "#7382a0"))))
+ ;;'(org-verbatim ((t (:foreground "#81895d" :family "Latin Modern Mono"))))
+; '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+; '(org-block ((t (:inherit fixed-pitch))))
+; '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
+ ;; TODO set the color following this
+ ;;'(org-block ((t (:extend t :background "#f7e0c3" :foreground "#5b5143" :family "Latin Modern Mono"))))
+ ;;'(org-code ((t (:inherit (shadow fixed-pitch)))))
+ ;; '(variable-pitch ((t (:family "DejaVu Serif" :height 150))))
+ ;; '(fixed-pitch ((t (:family "mononoki" :height 160))))
+ ;;'(org-level-8 ((t (,@headline ,@variable-tuple))))
+ ;;'(org-level-7 ((t (,@headline ,@variable-tuple))))
+ ;;'(org-level-6 ((t (,@headline ,@variable-tuple))))
+ ;; '(org-level-5 ((t (:inherit outline-5 :height 1.05 :family "DejaVu Serif Condensed"))))
+  ;; '(org-level-4 ((t (:inherit outline-4 :height 1.1 :family "CMU Typewriter Text"))))
+ ;; '(org-level-3 ((t (:inherit outline-3 :height 1.25 :family "DejaVu Serif Condensed"))))
+ ;; '(org-level-2 ((t (:inherit outline-2 :foreground "#EEC591" :height 1.5 :family
+                    ;; "DejaVu Serif Condensed"))))
+ ;; '(org-level-1 ((t (:inherit outline-1 :foreground "#076678" :weight extra-bold
+                    ;; :height 1.75 :family "Alegreya"))))
+
+ '(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil)))))
+
+; tramp 远程编辑plink:dd@ed:~/ws/
+(require 'tramp)
+(setq tramp-default-method "plink")
+(setq tramp-default-user "dd")
+(setq tramp-default-host "ed")
+(setq tramp-default-port "22")
+(defun tramp-remote-edit ()
+  (interactive)
+  (let ((file-name "dd@ed:~/ws/"))
+    (if (not (tramp-tramp-file-p file-name))
+	(message "Not a tramp file.")
+      (let ((vec (tramp-dissect-file-name file-name)))
+	(find-file (tramp-make-tramp-file-name
+		    (tramp-file-name-method vec)
+		    (tramp-file-name-user vec)
+		    (tramp-file-name-host vec)
+		    (tramp-file-name-localname vec)))))))
+(setq directory-abbrev-alist '(("^/waiter" . "/-:dd@ed:~/ws/waiter")))
