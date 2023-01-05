@@ -17,21 +17,25 @@
 
 ; 设置中文字体，思源，等宽
 ; 英文字体Source code pro ，等宽
-
-
+(require 'recentf)
+(setq recentf-auto-cleanup 'never)
+(setq recentf-keep '(file-remote-p file-readable-p))
+(defvar onedrive-dir "~/OneDrive/")
 (cond
  ((string-equal system-type "windows-nt") ; Microsoft Windows
   
-(set-fontset-font "fontset-default" 'han "思源黑体 Normal")
-(set-face-attribute 'default nil :font (font-spec :family "Source Code Pro" :size 14))
-;; 设置org mode 正文默认字号
+  (set-fontset-font "fontset-default" 'han "思源黑体 Normal")
+  (set-face-attribute 'default nil :font (font-spec :family "Source Code Pro" :size 14)
+		      (setq onedrive-dir "D:/OneDrive/"))
+
+  ;; 设置org mode 正文默认字号
 
 
   )
 
- ((string-equal system-type "darwin") ; macOS
+ ((string-equal system-type "darwin")	; macOS
   ()
-;  (when (member "Menlo" (font-family-list))
+					;  (when (member "Menlo" (font-family-list))
 					;   (set-frame-font "Menlo" t t)))
   )
  ((string-equal system-type "gnu/linux") ; linux
@@ -47,7 +51,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(leuven))
+ ;'(custom-enabled-themes '(leuven))
  '(package-selected-packages
    '(paredit geiser-guile geiser orderless vertico groovy-mode eglot company-box company magit which-key)))
 (custom-set-faces
@@ -74,7 +78,8 @@
 (setq copilot-log-max nil)
 
 (mapc #'straight-use-package
-      '(geiser-guile geiser
+      '(geiser-guile
+	geiser
 		     eglot
 		     groovy-mode
 		     company
@@ -88,14 +93,29 @@
 		     paredit
 		     dashboard
 		     geiser-guile
+		     gruvbox-theme
+		     olivetti
+		     deft
 		     
-))		     
+))
+;(load-theme 'gruvbox-light-hard t)
+(load-theme 'leuven t)
+(add-hook 'text-mode-hook 'olivetti-mode)
 
-;; Or if you use use-package
-(use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook))
+(use-package deft
+					;  :bind ("<f8>" . deft)
+  :commands (deft)
+  :config (setq deft-directory  (concat onedrive-dir "notes")
+                deft-extensions '("org" "md" "txt")
+                deft-default-extension "org"
+		deft-recursive t))
+
+
+		;; Or if you use use-package
+		(use-package dashboard
+		  :ensure t
+		  :config
+		  (dashboard-setup-startup-hook))
 
 (setq dashboard-projects-backend 'project-el)
 (setq dashboard-items '((recents  . 10)
