@@ -15,8 +15,10 @@
 
 (straight-use-package 'use-package)
 
-; 设置中文字体，思源，等宽
-; 英文字体Source code pro ，等宽
+(setq tramp-ssh-controlmaster-options "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+
+					; 设置中文字体，思源，等宽
+					; 英文字体Source code pro ，等宽
 (require 'recentf)
 (setq recentf-auto-cleanup 'never)
 (setq recentf-keep '(file-remote-p file-readable-p))
@@ -29,8 +31,9 @@
 		      (setq onedrive-dir "D:/OneDrive/"))
 
   ;; 设置org mode 正文默认字号
+  
 
-
+  
   )
 
  ((string-equal system-type "darwin")	; macOS
@@ -51,7 +54,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- ;'(custom-enabled-themes '(leuven))
+ '(codeium/metadata/api_key "a832f556-8d9b-48c3-868d-262d1e524c48")
  '(package-selected-packages
    '(paredit geiser-guile geiser orderless vertico groovy-mode eglot company-box company magit which-key)))
 (custom-set-faces
@@ -59,30 +62,26 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(org-document-title ((t ((\,@ headline) (\,@ variable-tuple) :height 2.0 :underline nil)))))
 
 (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 ;; (package-initialize) ;; You might already have this line
 
 
-(use-package copilot
-  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-  :ensure t)
+
 (with-eval-after-load 'company
   ;; disable inline previews
   (delq 'company-preview-if-just-one-frontend company-frontends))
-(add-hook 'prog-mode-hook 'copilot-mode 'company-mode)
-(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-(setq copilot-log-max nil)
+(add-hook 'prog-mode-hook 'company-mode)
 
 (mapc #'straight-use-package
       '(geiser-guile
 	geiser
-		     eglot
+	company
+	eglot
 		     groovy-mode
-		     company
+		     
 		     which-key
 		     company-box
 		     rainbow-delimiters
@@ -96,9 +95,76 @@
 		     gruvbox-theme
 		     olivetti
 		     deft
-		     
-))
-;(load-theme 'gruvbox-light-hard t)
+		     		     
+		     ))
+
+(straight-use-package '(codeium :type git :host github :repo "Exafunction/codeium.el"))
+
+
+;; we recommend using use-package to organize your init.el
+(use-package codeium
+    ;; if you use straight
+    ;; :straight '(:type git :host github :repo "Exafunction/codeium.el")
+    ;; otherwise, make sure that the codeium.el file is on load-path
+
+    :init
+    ;; use globally
+    (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
+    ;; or on a hook
+    ;; (add-hook 'python-mode-hook
+    ;;     (lambda ()
+    ;;         (setq-local completion-at-point-functions '(codeium-completion-at-point))))
+
+    ;; if you want multiple completion backends, use cape (https://github.com/minad/cape):
+    ;; (add-hook 'python-mode-hook
+    ;;     (lambda ()
+    ;;         (setq-local completion-at-point-functions
+    ;;             (list (cape-super-capf #'codeium-completion-at-point #'lsp-completion-at-point)))))
+    ;; an async company-backend is coming soon!
+
+    ;; codeium-completion-at-point is autoloaded, but you can
+    ;; optionally set a timer, which might speed up things as the
+    ;; codeium local language server takes ~0.2s to start up
+    ;; (add-hook 'emacs-startup-hook
+    ;;  (lambda () (run-with-timer 0.1 nil #'codeium-init)))
+
+    ;; :defer t ;; lazy loading, if you want
+    :config
+    (setq use-dialog-box nil) ;; do not use popup boxes
+
+    ;; if you don't want to use customize to save the api-key
+    ;; (setq codeium/metadata/api_key "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
+
+    ;; get codeium status in the modeline
+    (setq codeium-mode-line-enable
+          (lambda (api) (not (memq api '(CancelRequest Heartbeat AcceptCompletion)))))
+    (add-to-list 'mode-line-format '(:eval (car-safe codeium-mode-line)) t)
+    ;; alternatively for a more extensive mode-line
+    ;; (add-to-list 'mode-line-format '(-50 "" codeium-mode-line) t)
+
+    ;; use M-x codeium-diagnose to see apis/fields that would be sent to the local language server
+    (setq codeium-api-enabled
+        (lambda (api)
+            (memq api '(GetCompletions Heartbeat CancelRequest GetAuthToken RegisterUser auth-redirect AcceptCompletion))))
+    ;; you can also set a config for a single buffer like this:
+    ;; (add-hook 'python-mode-hook
+    ;;     (lambda ()
+    ;;         (setq-local codeium/editor_options/tab_size 4)))
+
+    ;; You can overwrite all the codeium configs!
+    ;; for example, we recommend limiting the string sent to codeium for better performance
+    (defun my-codeium/document/text ()
+        (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (min (+ (point) 1000) (point-max))))
+    ;; if you change the text, you should also change the cursor_offset
+    ;; warning: this is measured by UTF-8 encoded bytes
+    (defun my-codeium/document/cursor_offset ()
+        (codeium-utf8-byte-length
+            (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (point))))
+    (setq codeium/document/text 'my-codeium/document/text)
+    (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
+
+
+					;(load-theme 'gruvbox-light-hard t)
 (load-theme 'leuven t)
 (add-hook 'text-mode-hook 'olivetti-mode)
 
@@ -116,6 +182,11 @@
 		  :ensure t
 		  :config
 		  (dashboard-setup-startup-hook))
+
+;; org mode
+(setq org-default-notes-file
+      (concat onedrive-dir "capture/notes.org"))
+
 
 (setq dashboard-projects-backend 'project-el)
 (setq dashboard-items '((recents  . 10)
@@ -267,46 +338,17 @@
     )
   )
 
-(custom-set-faces
-; '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0))))
- ;; '(org-block-begin-line ((t (:extend t :background "#f7e0c3" :foreground "gray"
-                             ;; :weight semi-bold :height 151 :family "CMU Typewriter Text"))))
-; '(org-code ((t (:foreground "#957f5f" :family "mononoki"))))
-; '(org-document-title ((t (:foreground "midnight blue" :weight bold :height 2.0))))
-; '(org-hide ((t (:foreground "#E5E9F0" :height 0.1))))
 
-; '(org-list-dt ((t (:foreground "#7382a0"))))
- ;;'(org-verbatim ((t (:foreground "#81895d" :family "Latin Modern Mono"))))
-; '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-; '(org-block ((t (:inherit fixed-pitch))))
-; '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
- ;; TODO set the color following this
- ;;'(org-block ((t (:extend t :background "#f7e0c3" :foreground "#5b5143" :family "Latin Modern Mono"))))
- ;;'(org-code ((t (:inherit (shadow fixed-pitch)))))
- ;; '(variable-pitch ((t (:family "DejaVu Serif" :height 150))))
- ;; '(fixed-pitch ((t (:family "mononoki" :height 160))))
- ;;'(org-level-8 ((t (,@headline ,@variable-tuple))))
- ;;'(org-level-7 ((t (,@headline ,@variable-tuple))))
- ;;'(org-level-6 ((t (,@headline ,@variable-tuple))))
- ;; '(org-level-5 ((t (:inherit outline-5 :height 1.05 :family "DejaVu Serif Condensed"))))
-  ;; '(org-level-4 ((t (:inherit outline-4 :height 1.1 :family "CMU Typewriter Text"))))
- ;; '(org-level-3 ((t (:inherit outline-3 :height 1.25 :family "DejaVu Serif Condensed"))))
- ;; '(org-level-2 ((t (:inherit outline-2 :foreground "#EEC591" :height 1.5 :family
-                    ;; "DejaVu Serif Condensed"))))
- ;; '(org-level-1 ((t (:inherit outline-1 :foreground "#076678" :weight extra-bold
-                    ;; :height 1.75 :family "Alegreya"))))
-
- '(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil)))))
 
 ; tramp 远程编辑plink:dd@ed:~/ws/
 (require 'tramp)
-(setq tramp-default-method "plink")
+;; (setq tramp-default-method "plink")
 (setq tramp-default-user "dd")
-(setq tramp-default-host "ed")
+(setq tramp-default-host "beast")
 (setq tramp-default-port "22")
 (defun tramp-remote-edit ()
   (interactive)
-  (let ((file-name "dd@ed:~/ws/"))
+  (let ((file-name "dd@beast:~/ws/"))
     (if (not (tramp-tramp-file-p file-name))
 	(message "Not a tramp file.")
       (let ((vec (tramp-dissect-file-name file-name)))
@@ -315,4 +357,4 @@
 		    (tramp-file-name-user vec)
 		    (tramp-file-name-host vec)
 		    (tramp-file-name-localname vec)))))))
-(setq directory-abbrev-alist '(("^/waiter" . "/-:dd@ed:~/ws/waiter")))
+;; (setq directory-abbrev-alist '(("^/waiter" . "/-:dd@beast:~/ws/waiter")))
