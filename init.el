@@ -15,13 +15,12 @@
 
 (straight-use-package 'use-package)
 
-(setq tramp-ssh-controlmaster-options "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
 
 					; 设置中文字体，思源，等宽
 					; 英文字体Source code pro ，等宽
 (require 'recentf)
 (setq recentf-auto-cleanup 'never)
-(setq recentf-keep '(file-remote-p file-readable-p))
+
 (defvar onedrive-dir "~/OneDrive/")
 (cond
  ((string-equal system-type "windows-nt") ; Microsoft Windows
@@ -64,105 +63,34 @@
  ;; If there is more than one, they won't work right.
  '(org-document-title ((t ((\,@ headline) (\,@ variable-tuple) :height 2.0 :underline nil)))))
 
-(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
-;; (package-initialize) ;; You might already have this line
+(setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("nongnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
+                         ("melpa"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 
-
-
-(with-eval-after-load 'company
-  ;; disable inline previews
-  (delq 'company-preview-if-just-one-frontend company-frontends))
-(add-hook 'prog-mode-hook 'company-mode)
 
 (mapc #'straight-use-package
-      '(geiser-guile
+      '(company
+	geiser-guile
 	geiser
-	company
 	eglot
-		     groovy-mode
-		     
-		     which-key
-		     company-box
-		     rainbow-delimiters
-		     orderless
-		     exec-path-from-shell
-		     magit
-		     helm
-		     paredit
-		     dashboard
-		     geiser-guile
-		     gruvbox-theme
-		     olivetti
-		     deft
-		     		     
-		     ))
+	groovy-mode
+	
+	which-key
+	company-box
+	rainbow-delimiters
+	orderless
+	exec-path-from-shell
+	magit
+	helm
+	paredit
+	geiser-guile
+	gruvbox-theme
+	olivetti
+	deft
+	
+	))
 
-(straight-use-package '(codeium :type git :host github :repo "Exafunction/codeium.el"))
-
-
-;; we recommend using use-package to organize your init.el
-(use-package codeium
-    ;; if you use straight
-    ;; :straight '(:type git :host github :repo "Exafunction/codeium.el")
-    ;; otherwise, make sure that the codeium.el file is on load-path
-
-    :init
-    ;; use globally
-    (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
-    ;; or on a hook
-    ;; (add-hook 'python-mode-hook
-    ;;     (lambda ()
-    ;;         (setq-local completion-at-point-functions '(codeium-completion-at-point))))
-
-    ;; if you want multiple completion backends, use cape (https://github.com/minad/cape):
-    ;; (add-hook 'python-mode-hook
-    ;;     (lambda ()
-    ;;         (setq-local completion-at-point-functions
-    ;;             (list (cape-super-capf #'codeium-completion-at-point #'lsp-completion-at-point)))))
-    ;; an async company-backend is coming soon!
-
-    ;; codeium-completion-at-point is autoloaded, but you can
-    ;; optionally set a timer, which might speed up things as the
-    ;; codeium local language server takes ~0.2s to start up
-    ;; (add-hook 'emacs-startup-hook
-    ;;  (lambda () (run-with-timer 0.1 nil #'codeium-init)))
-
-    ;; :defer t ;; lazy loading, if you want
-    :config
-    (setq use-dialog-box nil) ;; do not use popup boxes
-
-    ;; if you don't want to use customize to save the api-key
-    ;; (setq codeium/metadata/api_key "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
-
-    ;; get codeium status in the modeline
-    (setq codeium-mode-line-enable
-          (lambda (api) (not (memq api '(CancelRequest Heartbeat AcceptCompletion)))))
-    (add-to-list 'mode-line-format '(:eval (car-safe codeium-mode-line)) t)
-    ;; alternatively for a more extensive mode-line
-    ;; (add-to-list 'mode-line-format '(-50 "" codeium-mode-line) t)
-
-    ;; use M-x codeium-diagnose to see apis/fields that would be sent to the local language server
-    (setq codeium-api-enabled
-        (lambda (api)
-            (memq api '(GetCompletions Heartbeat CancelRequest GetAuthToken RegisterUser auth-redirect AcceptCompletion))))
-    ;; you can also set a config for a single buffer like this:
-    ;; (add-hook 'python-mode-hook
-    ;;     (lambda ()
-    ;;         (setq-local codeium/editor_options/tab_size 4)))
-
-    ;; You can overwrite all the codeium configs!
-    ;; for example, we recommend limiting the string sent to codeium for better performance
-    (defun my-codeium/document/text ()
-        (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (min (+ (point) 1000) (point-max))))
-    ;; if you change the text, you should also change the cursor_offset
-    ;; warning: this is measured by UTF-8 encoded bytes
-    (defun my-codeium/document/cursor_offset ()
-        (codeium-utf8-byte-length
-            (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (point))))
-    (setq codeium/document/text 'my-codeium/document/text)
-    (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
-
+(add-hook 'after-init-hook 'global-company-mode)
 
 					;(load-theme 'gruvbox-light-hard t)
 (load-theme 'leuven t)
@@ -176,24 +104,11 @@
                 deft-default-extension "org"
 		deft-recursive t))
 
-
-		;; Or if you use use-package
-		(use-package dashboard
-		  :ensure t
-		  :config
-		  (dashboard-setup-startup-hook))
-
 ;; org mode
 (setq org-default-notes-file
       (concat onedrive-dir "capture/notes.org"))
 
 
-(setq dashboard-projects-backend 'project-el)
-(setq dashboard-items '((recents  . 10)
-                        (projects . 15)
-                        (bookmarks . 5)
-                        (agenda . 5)
-                        (registers . 5)))
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'hl-line-mode)
 (add-hook 'prog-mode-hook #'show-paren-mode)
@@ -302,11 +217,13 @@
 
 
 
-(recentf-mode 1)
+;;(recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (setq recentf-max-saved-items 25)
 (global-set-key "\C-x\ \C-r" 'helm-recentf)
-;(put 'upcase-region 'disabled nil)
+(setq recentf-keep '(file-remote-p file-readable-p));; remote file will be kept without testing if they still exists
+
+					;(put 'upcase-region 'disabled nil)
 
 
 ;; disable the toolbar
@@ -335,26 +252,50 @@
     (shell-command "git add .")
     (shell-command (concat "git commit -m \"" (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)) "\""))
     (shell-command "git push")
+
     )
   )
 
-
-
 ; tramp 远程编辑plink:dd@ed:~/ws/
-(require 'tramp)
-;; (setq tramp-default-method "plink")
-(setq tramp-default-user "dd")
-(setq tramp-default-host "beast")
-(setq tramp-default-port "22")
-(defun tramp-remote-edit ()
-  (interactive)
-  (let ((file-name "dd@beast:~/ws/"))
-    (if (not (tramp-tramp-file-p file-name))
-	(message "Not a tramp file.")
-      (let ((vec (tramp-dissect-file-name file-name)))
-	(find-file (tramp-make-tramp-file-name
-		    (tramp-file-name-method vec)
-		    (tramp-file-name-user vec)
-		    (tramp-file-name-host vec)
-		    (tramp-file-name-localname vec)))))))
+;; (require 'tramp)
+;; ;; (setq tramp-default-method "plink")
+;; (setq tramp-default-user "dd")
+;; (setq tramp-default-host "beast")
+;; (setq tramp-default-port "22")
+;; (defun tramp-remote-edit ()
+;;   (interactive)
+;;   (let ((file-name "dd@beast:~/ws/"))
+;;     (if (not (tramp-tramp-file-p file-name))
+;; 	(message "Not a tramp file.")
+;;       (let ((vec (tramp-dissect-file-name file-name)))
+;; 	(find-file (tramp-make-tramp-file-name
+;; 		    (tramp-file-name-method vec)
+;; 		    (tramp-file-name-user vec)
+;; 		    (tramp-file-name-host vec)
+;; 		    (tramp-file-name-localname vec)))))))
 ;; (setq directory-abbrev-alist '(("^/waiter" . "/-:dd@beast:~/ws/waiter")))
+
+;; llama cpp server的集成
+(use-package llama-cpp
+  :ensure t
+  :straight t
+  :init
+  (setq llama-cpp-host "beast")
+  (setq llama-cpp-port 58870)
+  (setq llama-cpp-chat-input-prefix "<s>[INST] ")
+  (setq llama-cpp-chat-input-suffix " [/INST]")
+  (setq llama-cpp-chat-prompt "")
+  (bind-key "C-x C-c" 'llama-cpp-chat-start)
+  (bind-key "C-x RET" 'llama-cpp-chat-answer)
+  (bind-key "C-x r" 'llama-cpp-code-region-task)
+)
+
+
+;; set emacs maximize on load
+(toggle-frame-maximized)
+
+;; clojure
+
+(use-package clojure-mode
+  :ensure t
+  :straight t)
