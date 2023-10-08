@@ -18,10 +18,7 @@
 
 					; 设置中文字体，思源，等宽
 					; 英文字体Source code pro ，等宽
-(require 'recentf)
-(setq recentf-auto-cleanup 'never)
 
-(defvar onedrive-dir "~/OneDrive/")
 (cond
  ((string-equal system-type "windows-nt") ; Microsoft Windows
   
@@ -54,8 +51,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(codeium/metadata/api_key "a832f556-8d9b-48c3-868d-262d1e524c48")
+ '(completion-auto-help t)
+ '(fido-mode t)
+ '(fido-vertical-mode t)
+ '(icomplete-mode t)
  '(package-selected-packages
-   '(paredit geiser-guile geiser orderless vertico groovy-mode eglot company-box company magit which-key)))
+   '(paredit geiser-guile geiser orderless vertico groovy-mode eglot company-box company magit which-key))
+ '(recentf-exclude '(".*\\.gz" ".*\\.zip")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -83,13 +85,12 @@
 	orderless
 	exec-path-from-shell
 	magit
-	helm
+	;; helm
 	paredit
 	geiser-guile
 	gruvbox-theme
-	olivetti
-	deft
-	
+	olivetti ;; balance org mode
+	cider
 	))
 
 (add-hook 'after-init-hook 'global-company-mode)
@@ -98,17 +99,10 @@
 (load-theme 'leuven t)
 (add-hook 'text-mode-hook 'olivetti-mode)
 
-(use-package deft
-					;  :bind ("<f8>" . deft)
-  :commands (deft)
-  :config (setq deft-directory  (concat onedrive-dir "notes")
-                deft-extensions '("org" "md" "txt")
-                deft-default-extension "org"
-		deft-recursive t))
 
 ;; org mode
 (setq org-default-notes-file
-      (concat onedrive-dir "capture/notes.org"))
+      "/sshx:dd@beast:/home/dd/ws/dev-diary/inbox.org")
 
 
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -120,7 +114,7 @@
 	show-paren-mode
 	company-mode
 	))
-;(add-hook 'scheme-mode-hook 'geiser-guile )
+
 (add-hook 'scheme-mode-hook  #'geiser-mode)
 
 (mapc (lambda (mode)
@@ -144,75 +138,15 @@
 (which-key-mode)
 
 ;; 解决windows远程的时候报错
-(setq geiser-guile-binary "guile")
+;;(setq geiser-guile-binary "guile")
 
-(require 'helm)
-(global-set-key (kbd "C-h r")                        'helm-info-emacs)
-(global-set-key (kbd "M-x")                          'undefined)
-(global-set-key (kbd "M-x")                          'helm-M-x)
-(global-set-key (kbd "M-y")                          'helm-show-kill-ring)
-(global-set-key (kbd "C-x C-f")                      'helm-find-files)
-(global-set-key (kbd "C-c <SPC>")                    'helm-mark-ring)
-(global-set-key [remap bookmark-jump]                'helm-filtered-bookmarks)
-(global-set-key (kbd "C-:")                          'helm-eval-expression-with-eldoc)
-(global-set-key (kbd "C-,")                          'helm-calcul-expression)
-(global-set-key (kbd "C-h d")                        'helm-info-at-point)
-(global-set-key (kbd "C-h i")                        'helm-info)
-(global-set-key (kbd "C-x C-d")                      'helm-browse-project)
-(global-set-key (kbd "<f1>")                         'helm-resume)
-(global-set-key (kbd "C-h C-f")                      'helm-apropos)
-(global-set-key (kbd "C-h a")                        'helm-apropos)
-(global-set-key (kbd "C-h C-d")                      'helm-debug-open-last-log)
-(global-set-key (kbd "<f5> s")                       'helm-find)
-(global-set-key (kbd "S-<f3>")                       'helm-execute-kmacro)
-(global-set-key (kbd "C-c i")                        'helm-imenu-in-all-buffers)
-(global-set-key (kbd "C-c C-i")                      'helm-imenu)
-(global-set-key (kbd "<f11>")                        nil)
-(global-set-key (kbd "<f11> o")                      'helm-org-agenda-files-headings)
-(global-set-key (kbd "M-s")                          nil)
-(global-set-key (kbd "M-s")                          'helm-occur-visible-buffers)
-(global-set-key (kbd "<f6> h")                       'helm-emms)
-(define-key global-map [remap jump-to-register]      'helm-register)
-(define-key global-map [remap list-buffers]          'helm-mini)
-(define-key global-map [remap dabbrev-expand]        'helm-dabbrev)
-(define-key global-map [remap find-tag]              'helm-etags-select)
-(define-key global-map [remap xref-find-definitions] 'helm-etags-select)
-(define-key global-map (kbd "M-g a")                 'helm-do-grep-ag)
-(define-key global-map (kbd "M-g l")                 'goto-line)
-(define-key global-map (kbd "M-g g")                 'helm-grep-do-git-grep)
-(define-key global-map (kbd "M-g M-g")               'helm-revert-next-error-last-buffer)
-(define-key global-map (kbd "M-g i")                 'helm-gid)
-(define-key global-map (kbd "C-x r p")               'helm-projects-history)
-(define-key global-map (kbd "C-x r c")               'helm-addressbook-bookmarks)
-(define-key global-map (kbd "C-c t r")               'helm-dictionary)
 
 (require 'company-box)
 (add-hook 'company-mode-hook 'company-box-mode)
 
 (setq truncate-lines nil)
 
-;; (require 'ido)
-;; (ido-mode t)
-;;     (global-set-key
-;;      "\M-x"
-;;      (lambda ()
-;;        (interactive)
-;;        (call-interactively
-;;         (intern
-;;          (ido-completing-read
-;;           "M-x "
-;;           (all-completions "" obarray 'commandp))))))
-
-
-
-;;(recentf-mode 1)
-(setq recentf-max-menu-items 25)
-(setq recentf-max-saved-items 25)
-(global-set-key "\C-x\ \C-r" 'helm-recentf)
-(setq recentf-keep '(file-remote-p file-readable-p));; remote file will be kept without testing if they still exists
-
-					;(put 'upcase-region 'disabled nil)
-
+(recentf-mode 1)
 
 ;; disable the toolbar
 (tool-bar-mode -1)
@@ -268,11 +202,12 @@
   :ensure t
   :straight t)
 
+
 ;; git gutter
 (global-git-gutter-mode +1)
 
 ;; tab
-(tab-bar-mode t)
+;;(tab-bar-mode t)
 
 ;; restart
 (bind-key "C-c C-q" 'restart-emacs)
@@ -281,3 +216,6 @@
 (bind-key "C-c g" 'git-quick-commit)
 ;;
 (global-set-key (kbd "C-c d") 'duplicate-line)
+
+;; dired prompt
+(setq dired-deletion-confirmer #'y-or-n-p)
