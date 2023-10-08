@@ -146,20 +146,6 @@
 ;; 解决windows远程的时候报错
 (setq geiser-guile-binary "guile")
 
-(defun duplicate-line (&optional arg)
-  "Duplicate it. With prefix ARG, duplicate ARG times."
-  (interactive "p")
-  (next-line 
-   (save-excursion 
-     (let ((beg (line-beginning-position))
-           (end (line-end-position)))
-       (copy-region-as-kill beg end)
-       (dotimes (num arg arg)
-         (end-of-line) (newline)
-         (yank))))))
-
-(global-set-key (kbd "C-S-d") 'duplicate-line)
-
 (require 'helm)
 (global-set-key (kbd "C-h r")                        'helm-info-emacs)
 (global-set-key (kbd "M-x")                          'undefined)
@@ -266,10 +252,10 @@
   (setq llama-cpp-chat-input-prefix "<s>[INST] ")
   (setq llama-cpp-chat-input-suffix " [/INST]")
   (setq llama-cpp-chat-prompt "")
-  (bind-key "C-x s" 'llama-cpp-chat-start)
-  (bind-key "C-x c" 'llama-cpp-cancel)
-  (bind-key "C-x RET" 'llama-cpp-chat-answer)
-  (bind-key "C-x t" 'llama-cpp-code-region-task)
+  (bind-key "C-c s" 'llama-cpp-chat-start)
+  (bind-key "C-c c" 'llama-cpp-cancel)
+  (bind-key "C-c RET" 'llama-cpp-chat-answer)
+  (bind-key "C-c t" 'llama-cpp-code-region-task)
 )
 
 
@@ -289,4 +275,9 @@
 (tab-bar-mode t)
 
 ;; restart
-(bind-key "C-x C-q" 'restart-emacs)
+(bind-key "C-c C-q" 'restart-emacs)
+
+;; quick commit git
+(bind-key "C-c g" 'git-quick-commit)
+;;
+(global-set-key (kbd "C-c d") 'duplicate-line)
