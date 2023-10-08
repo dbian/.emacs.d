@@ -74,6 +74,8 @@
 	geiser
 	eglot
 	groovy-mode
+
+	git-gutter
 	
 	which-key
 	company-box
@@ -244,36 +246,15 @@
   (insert (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)))
   )
 
-;; git commit elpa submodules, with one line message, default title is current timestamp
-(defun git-commit-elpa-submodules (arg)
+;; git commit current git directory, with optional one line message, default title is current timestamp
+(defun git-quick-commit (arg)
   "git commit elpa submodules, with one line message, default title is current timestamp"
   (interactive "P")
-  (let ((default-directory "~/.emacs.d/elpa/"))
-    (shell-command "git add .")
-    (shell-command (concat "git commit -m \"" (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)) "\""))
-    (shell-command "git push")
-
-    )
+  (shell-command "git add .")
+  (shell-command (concat "git commit -m \"" (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)) "\""))
+  (shell-command "git push")
   )
 
-; tramp 远程编辑plink:dd@ed:~/ws/
-;; (require 'tramp)
-;; ;; (setq tramp-default-method "plink")
-;; (setq tramp-default-user "dd")
-;; (setq tramp-default-host "beast")
-;; (setq tramp-default-port "22")
-;; (defun tramp-remote-edit ()
-;;   (interactive)
-;;   (let ((file-name "dd@beast:~/ws/"))
-;;     (if (not (tramp-tramp-file-p file-name))
-;; 	(message "Not a tramp file.")
-;;       (let ((vec (tramp-dissect-file-name file-name)))
-;; 	(find-file (tramp-make-tramp-file-name
-;; 		    (tramp-file-name-method vec)
-;; 		    (tramp-file-name-user vec)
-;; 		    (tramp-file-name-host vec)
-;; 		    (tramp-file-name-localname vec)))))))
-;; (setq directory-abbrev-alist '(("^/waiter" . "/-:dd@beast:~/ws/waiter")))
 
 ;; llama cpp server的集成
 (use-package llama-cpp
@@ -285,9 +266,10 @@
   (setq llama-cpp-chat-input-prefix "<s>[INST] ")
   (setq llama-cpp-chat-input-suffix " [/INST]")
   (setq llama-cpp-chat-prompt "")
-  (bind-key "C-x C-c" 'llama-cpp-chat-start)
+  (bind-key "C-x s" 'llama-cpp-chat-start)
+  (bind-key "C-x c" 'llama-cpp-cancel)
   (bind-key "C-x RET" 'llama-cpp-chat-answer)
-  (bind-key "C-x r" 'llama-cpp-code-region-task)
+  (bind-key "C-x t" 'llama-cpp-code-region-task)
 )
 
 
@@ -299,3 +281,12 @@
 (use-package clojure-mode
   :ensure t
   :straight t)
+
+;; git gutter
+(global-git-gutter-mode +1)
+
+;; tab
+(tab-bar-mode t)
+
+;; restart
+(bind-key "C-x C-q" 'restart-emacs)
