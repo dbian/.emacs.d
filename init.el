@@ -68,7 +68,9 @@
  '(fido-mode t)
  '(fido-vertical-mode t)
  '(global-display-line-numbers-mode t)
+ '(icomplete-hide-common-prefix t)
  '(icomplete-mode t)
+ '(org-agenda-files '("/sshx:dd@beast:~/ws/dev-diary/inbox.org"))
  '(package-selected-packages
    '(magit which-key v2ex-mode use-package paredit olivetti llama-cpp git-gutter company-box clojure-mode))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
