@@ -1,20 +1,36 @@
 ;; -*- lexical-binding: t; -*-
 
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+;;;; 原生设置，崩溃情况下也可用
 
-(straight-use-package 'use-package)
+(setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("nongnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
+                         ("melpa"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+(package-initialize)
 
+;; restart
+(bind-key "C-c C-q" 'restart-emacs)
+;;
+(global-set-key (kbd "C-c d") 'duplicate-line)
+
+;; dired prompt
+(setq dired-deletion-confirmer #'y-or-n-p)
+
+;; set emacs maximize on load
+(toggle-frame-maximized)
+
+
+(set-language-environment 'UTF-8)
+(set-locale-environment "UTF-8")
+
+
+(setq truncate-lines nil)
+
+(recentf-mode 1)
+
+;; disable the toolbar
+;;(tool-bar-mode -1)
+
+(require 'use-package)
 
 					; 设置中文字体，思源，等宽
 					; 英文字体Source code pro ，等宽
@@ -27,9 +43,6 @@
 		      (setq onedrive-dir "D:/OneDrive/"))
 
   ;; 设置org mode 正文默认字号
-  
-
-  
   )
 
  ((string-equal system-type "darwin")	; macOS
@@ -42,21 +55,17 @@
     (set-frame-font "DejaVu Sans Mono" t t))))
 
 
-
-(set-language-environment 'UTF-8)
-(set-locale-environment "UTF-8")
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(codeium/metadata/api_key "a832f556-8d9b-48c3-868d-262d1e524c48")
  '(completion-auto-help t)
  '(fido-mode t)
  '(fido-vertical-mode t)
  '(icomplete-mode t)
  '(package-selected-packages
-   '(paredit geiser-guile geiser orderless vertico groovy-mode eglot company-box company magit which-key))
+   '(magit which-key v2ex-mode use-package paredit olivetti llama-cpp git-gutter company-box clojure-mode))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -65,38 +74,30 @@
  ;; If there is more than one, they won't work right.
  '(org-document-title ((t ((\,@ headline) (\,@ variable-tuple) :height 2.0 :underline nil)))))
 
-(setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("nongnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
-                         ("melpa"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 
+;; paredit
+(require 'paredit)
+;;(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code."
+;;  t)
 
-(mapc #'straight-use-package
-      '(company
-	geiser-guile
-	geiser
-	eglot
-	groovy-mode
-
-	git-gutter
+;; (mapc #'straight-use-package
+;;       '(
+;; 	;; git-gutter
 	
-	which-key
-	company-box
-	rainbow-delimiters
-	orderless
-	exec-path-from-shell
-	magit
-	;; helm
-	paredit
-	geiser-guile
-	gruvbox-theme
-	olivetti ;; balance org mode
-	cider
-	))
+	
+;; 	;; exec-path-from-shell
+;; 		olivetti ;; balance org mode
+;; 	cider
+;; 	))
 
+(require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 
+(require 'company-box)
+(add-hook 'company-mode-hook 'company-box-mode)
+
 					;(load-theme 'gruvbox-light-hard t)
-(load-theme 'leuven t)
+(require 'olivetti)
 (add-hook 'text-mode-hook 'olivetti-mode)
 
 
@@ -105,51 +106,44 @@
       "/sshx:dd@beast:/home/dd/ws/dev-diary/inbox.org")
 
 
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(add-hook 'prog-mode-hook #'hl-line-mode)
-(add-hook 'prog-mode-hook #'show-paren-mode)
-(mapc (lambda (mode)
-	(add-hook 'prog-mode-hook mode))
-      '(rainbow-delimiters-mode
-	show-paren-mode
-	company-mode
-	))
+;; (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+;; (add-hook 'prog-mode-hook #'hl-line-mode)
+;; (add-hook 'prog-mode-hook #'show-paren-mode)
+;; (mapc (lambda (mode)
+;; 	(add-hook 'prog-mode-hook mode))
+;;       '(rainbow-delimiters-mode
+;; 	show-paren-mode
+;; 	company-mode
+;; 	))
 
-(add-hook 'scheme-mode-hook  #'geiser-mode)
+;; (add-hook 'scheme-mode-hook  #'geiser-mode)
 
-(mapc (lambda (mode)
-	(add-hook mode 'company-mode))
-      '(prog-mode-hook
-	conf-mode-hook
-	text-mode-hook
-	org-mode-hook))
-(mapc (lambda (mode)
-	(add-hook mode 'paredit-mode))
-      '(prog-mode-hook
-	conf-mode-hook
-	emacslisp-mode-hook
-	lisp-mode-hook
-	scheme-mode-hook
-	))
+;; (mapc (lambda (mode)
+;; 	(add-hook mode 'company-mode))
+;;       '(prog-mode-hook
+;; 	conf-mode-hook
+;; 	text-mode-hook
+;; 	org-mode-hook))
+;; (mapc (lambda (mode)
+;; 	(add-hook mode 'paredit-mode))
+;;       '(prog-mode-hook
+;; 	conf-mode-hook
+;; 	emacslisp-mode-hook
+;; 	lisp-mode-hook
+;; 	scheme-mode-hook
+;; 	))
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
+;; (when (memq window-system '(mac ns x))
+;;   (exec-path-from-shell-initialize))
 
+(require 'which-key)
 (which-key-mode)
 
 ;; 解决windows远程的时候报错
 ;;(setq geiser-guile-binary "guile")
 
 
-(require 'company-box)
-(add-hook 'company-mode-hook 'company-box-mode)
 
-(setq truncate-lines nil)
-
-(recentf-mode 1)
-
-;; disable the toolbar
-(tool-bar-mode -1)
 
 
 ;; 在当前鼠标位置插入今天的日期,格式为:2012-12-12
@@ -175,11 +169,10 @@
   (shell-command "git push")
   )
 
-
+(require 'llama-cpp)
 ;; llama cpp server的集成
 (use-package llama-cpp
   :ensure t
-  :straight t
   :init
   (setq llama-cpp-host "beast")
   (setq llama-cpp-port 58870)
@@ -193,14 +186,11 @@
 )
 
 
-;; set emacs maximize on load
-(toggle-frame-maximized)
-
 ;; clojure
-
+(require 'clojure-mode)
 (use-package clojure-mode
   :ensure t
-  :straight t)
+  )
 
 
 ;; git gutter
@@ -209,13 +199,9 @@
 ;; tab
 ;;(tab-bar-mode t)
 
-;; restart
-(bind-key "C-c C-q" 'restart-emacs)
 
 ;; quick commit git
 (bind-key "C-c g" 'git-quick-commit)
-;;
-(global-set-key (kbd "C-c d") 'duplicate-line)
 
-;; dired prompt
-(setq dired-deletion-confirmer #'y-or-n-p)
+
+
