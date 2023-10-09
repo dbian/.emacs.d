@@ -72,6 +72,7 @@
  '(package-selected-packages
    '(magit which-key v2ex-mode use-package paredit olivetti llama-cpp git-gutter company-box clojure-mode))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
+ '(scroll-bar-mode nil)
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
