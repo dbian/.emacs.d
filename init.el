@@ -46,7 +46,7 @@
   )
 
  ((string-equal system-type "darwin")	; macOS
-  ()
+
 					;  (when (member "Menlo" (font-family-list))
 					;   (set-frame-font "Menlo" t t)))
   )
@@ -70,9 +70,14 @@
  '(global-display-line-numbers-mode t)
  '(icomplete-hide-common-prefix t)
  '(icomplete-mode t)
- '(org-agenda-files '("/sshx:dd@beast:~/ws/dev-diary/inbox.org"))
- '(package-selected-packages
-   '(magit which-key v2ex-mode use-package paredit olivetti llama-cpp git-gutter company-box clojure-mode))
+ '(org-agenda-files '("~/ws/dev-diary"))
+ '(org-capture-templates
+   '(("t" "all kinds of todos" entry
+      (file "~/ws/dev-diary/inbox.org")
+      "* TODO %? :: Captured @ %T%^{Effort|2d}p" :prepend t :jump-to-captured t)
+     ("c" "new comprehension on things" entry
+      (file "~/ws/dev-diary/comprehension.org")
+      "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
@@ -111,11 +116,6 @@
 
 (use-package olivetti
   :config (add-hook 'text-mode-hook 'olivetti-mode))
-
-;; org mode
-(setq org-default-notes-file
-      "/sshx:dd@beast:/home/dd/ws/dev-diary/inbox.org")
-
 
 ;; (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'hl-line-mode)
@@ -199,7 +199,7 @@
   (setq llama-cpp-chat-prompt "")
   :config
   (bind-key "C-c s" 'llama-cpp-chat-start)
-  (bind-key "C-c c" 'llama-cpp-cancel)
+  (bind-key "C-c C-s" 'llama-cpp-cancel)
   (bind-key "C-c RET" 'llama-cpp-chat-answer)
   (bind-key "C-c t" 'llama-cpp-code-region-task)
 )
@@ -223,3 +223,8 @@
 
 
 
+;; org mode
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
+(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+(setq org-directory "~/ws/dev-diary")
