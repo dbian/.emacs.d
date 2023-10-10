@@ -8,7 +8,7 @@
 (package-initialize)
 
 ;; restart
-(bind-key "C-c C-q" 'restart-emacs)
+(global-set-key (kbd "C-c C-q") 'restart-emacs)
 ;;
 (global-set-key (kbd "C-c d") 'duplicate-line)
 
@@ -31,6 +31,7 @@
 ;;(tool-bar-mode -1)
 
 (require 'use-package)
+(setq use-package-compute-statistics t)
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
@@ -53,8 +54,10 @@
 					;   (set-frame-font "Menlo" t t)))
   )
  ((string-equal system-type "gnu/linux") ; linux
-  (when (member "DejaVu Sans Mono" (font-family-list))
-    (set-frame-font "DejaVu Sans Mono" t t))))
+  ;; (when (member "DejaVu Sans Mono" (font-family-list))
+  ;;   (set-frame-font "DejaVu Sans Mono" t t)))
+  )
+ )
 
 
 (custom-set-variables
@@ -63,7 +66,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(completion-auto-help t)
- '(current-language-environment "Chinese-GBK")
+ '(current-language-environment "UTF-8")
  '(custom-enabled-themes '(deeper-blue))
  '(display-battery-mode t)
  '(display-time-mode t)
@@ -153,18 +156,20 @@
   :config
   (which-key-mode))
 
+(use-package magit)
 
 ;; 解决windows远程的时候报错
 ;;(setq geiser-guile-binary "guile")
 
-
-(autoload 'enable-paredit-mode "paredit"
-  "Turn on pseudo-structural editing of Lisp code."
-  t)
-(add-hook 'emacs-lisp-mode-hook       'enable-paredit-mode)
-(add-hook 'lisp-mode-hook             'enable-paredit-mode)
-(add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
-(add-hook 'scheme-mode-hook           'enable-paredit-mode)
+(use-package paredit
+  :config
+  (autoload 'enable-paredit-mode "paredit"
+    "Turn on pseudo-structural editing of Lisp code."
+    t)
+  (add-hook 'emacs-lisp-mode-hook       'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook             'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
+  (add-hook 'scheme-mode-hook           'enable-paredit-mode))
 
 
 ;; 在当前鼠标位置插入今天的日期,格式为:2012-12-12
@@ -214,7 +219,9 @@
 
 
 ;; git gutter
-(global-git-gutter-mode +1)
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode +1))
 
 ;; tab
 ;;(tab-bar-mode t)
