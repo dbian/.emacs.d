@@ -31,6 +31,8 @@
 ;;(tool-bar-mode -1)
 
 (require 'use-package)
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
 
 					; 设置中文字体，思源，等宽
 					; 英文字体Source code pro ，等宽
