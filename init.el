@@ -301,4 +301,4 @@
   (git-quick-commit)
   )
 
-(add-hook 'org-mode-hook #'org-sync-mode)
+;;(add-hook 'org-mode-hook #'org-sync-mode)
