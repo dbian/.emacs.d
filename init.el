@@ -73,7 +73,7 @@
  '(fido-mode t)
  '(fido-vertical-mode t)
  '(global-display-line-numbers-mode t)
- '(icomplete-hide-common-prefix t)
+ '(icomplete-hide-common-prefix nil)
  '(icomplete-mode t)
  '(org-agenda-files '("~/ws/dev-diary"))
  '(org-capture-templates
@@ -83,6 +83,8 @@
      ("c" "new comprehension on things" entry
       (file "~/ws/dev-diary/comprehension.org")
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
+ '(package-selected-packages
+   '(cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
@@ -116,8 +118,17 @@
 (use-package company-box
   :config (add-hook 'company-mode-hook 'company-box-mode))
 
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  
+  :commands lsp)
+
+(use-package lsp-ui :commands lsp-ui-mode)
+
 ;; This is commented out since it's not a package:
-;(load-theme 'gruvbox-light-hard t)
+					;(load-theme 'gruvbox-light-hard t)
 
 (use-package olivetti
   :config (add-hook 'text-mode-hook 'olivetti-mode))
@@ -217,6 +228,8 @@
   :ensure t
   )
 
+(use-package cider
+  :ensure t)
 
 ;; git gutter
 (use-package git-gutter
@@ -235,5 +248,57 @@
 ;; org mode
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
+(global-set-key (kbd "C-c b") #'org-switchb)
 (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
 (setq org-directory "~/ws/dev-diary")
+
+
+(define-minor-mode org-sync-mode
+  "Org Sync Mode"
+  :init-value nil
+  :lighter " OrgSync"
+  :global nil
+  :group 'OrgSync
+  (if org-sync-mode
+      (org-sync-start-timer)
+    (org-sync-stop-timer)))
+
+(defvar org-sync-timer nil
+  "定时器对象")
+
+(defun org-sync-start-timer ()
+  "启动定时器"
+  (setq org-sync-timer
+        (run-with-timer 0 30 #'org-sync-git-fetch-rebase)))
+
+(defun org-sync-stop-timer ()
+  "停止定时器"
+  (when org-sync-timer
+    (cancel-timer org-sync-timer)
+    (setq org-sync-timer nil)))
+
+(defun org-sync-git-fetch-rebase ()
+  "执行 git fetch 和 git rebase 操作"
+  (message "执行 git fetch...")
+  (shell-command "git fetch")
+  (let ((output (shell-command-to-string "git status --porcelain")))
+    (if (string-empty-p output)
+        (message "本地已是最新状态，无需更新。")
+      (progn
+        (message "远端有新的修改，请合并更新。")
+        (message "执行 git rebase...")
+        (shell-command "git rebase origin/main --autostash")
+        (let ((local-modified (shell-command-to-string "git status --porcelain")))
+          (when (not (string-empty-p local-modified))
+            (message "本地有未提交的修改，请先提交或保存！")
+            (message "提示：执行 `git-auto-commit` 函数可以自动提交修改。")
+            (org-sync-git-auto-commit)))))))
+
+(defun org-sync-git-auto-commit ()
+  "执行 git-auto-commit 函数"
+  (message "执行 git-auto-commit...")
+  ;; 在这里调用 `git-auto-commit` 函数的外部实现
+  (git-quick-commit)
+  )
+
+(add-hook 'org-mode-hook #'org-sync-mode)
