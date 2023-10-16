@@ -2,6 +2,9 @@
 
 ;;;; 原生设置，崩溃情况下也可用
 
+;; 设置主题
+(add-to-list 'default-frame-alist '(undecorated . t))
+
 (setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("nongnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
                          ("melpa"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
@@ -16,8 +19,8 @@
 (setq dired-deletion-confirmer #'y-or-n-p)
 
 ;; set emacs maximize on load
-(toggle-frame-maximized)
-
+;; (toggle-frame-maximized)
+(add-hook 'window-setup-hook 'toggle-frame-maximized t)
 
 (set-language-environment 'UTF-8)
 (set-locale-environment "UTF-8")
@@ -67,11 +70,12 @@
  ;; If there is more than one, they won't work right.
  '(completion-auto-help t)
  '(current-language-environment "UTF-8")
- '(custom-enabled-themes '(deeper-blue))
+ '(custom-enabled-themes '(whiteboard))
  '(display-battery-mode t)
  '(display-time-mode t)
  '(fido-mode t)
  '(fido-vertical-mode t)
+ '(fringe-mode 0 nil (fringe))
  '(global-display-line-numbers-mode t)
  '(icomplete-hide-common-prefix nil)
  '(icomplete-mode t)
@@ -84,7 +88,7 @@
       (file "~/ws/dev-diary/comprehension.org")
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(package-selected-packages
-   '(cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
+   '(geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
@@ -249,6 +253,7 @@
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
 (global-set-key (kbd "C-c b") #'org-switchb)
+(global-set-key (kbd "<f12>") #'eshell)
 (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
 (setq org-directory "~/ws/dev-diary")
 
@@ -302,3 +307,6 @@
   )
 
 ;;(add-hook 'org-mode-hook #'org-sync-mode)
+
+;; scheme
+(use-package geiser-chibi)
