@@ -4,6 +4,7 @@
 
 ;; 设置主题
 (add-to-list 'default-frame-alist '(undecorated . t))
+(add-to-list 'load-path (expand-file-name "boxes" "~/.emacs.d"))
 
 (setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("nongnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
@@ -38,29 +39,10 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-					; 设置中文字体，思源，等宽
-					; 英文字体Source code pro ，等宽
 
-(cond
- ((string-equal system-type "windows-nt") ; Microsoft Windows
-  
-  (set-fontset-font "fontset-default" 'han "思源黑体 Normal")
-  (set-face-attribute 'default nil :font (font-spec :family "Source Code Pro" :size 14)
-		      (setq onedrive-dir "D:/OneDrive/"))
-
-  ;; 设置org mode 正文默认字号
-  )
-
- ((string-equal system-type "darwin")	; macOS
-
-					;  (when (member "Menlo" (font-family-list))
-					;   (set-frame-font "Menlo" t t)))
-  )
- ((string-equal system-type "gnu/linux") ; linux
-  ;; (when (member "DejaVu Sans Mono" (font-family-list))
-  ;;   (set-frame-font "DejaVu Sans Mono" t t)))
-  )
- )
+(use-package cnfonts
+  :config
+  (cnfonts-mode 1))
 
 
 (custom-set-variables
@@ -88,7 +70,7 @@
       (file "~/ws/dev-diary/comprehension.org")
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(package-selected-packages
-   '(geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
+   '(cnfonts geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
