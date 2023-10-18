@@ -55,12 +55,8 @@
  '(custom-enabled-themes '(tango-dark))
  '(display-battery-mode t)
  '(display-time-mode t)
- '(fido-mode t)
- '(fido-vertical-mode t)
  '(fringe-mode 0 nil (fringe))
  '(global-display-line-numbers-mode t)
- '(icomplete-hide-common-prefix nil)
- '(icomplete-mode t)
  '(org-agenda-files '("~/ws/dev-diary"))
  '(org-capture-templates
    '(("t" "all kinds of todos" entry
@@ -70,7 +66,7 @@
       (file "~/ws/dev-diary/comprehension.org")
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(package-selected-packages
-   '(bufferbin ace-window cnfonts geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
+   '(dumb-jump embark-consult embark consult marginalia orderless vertico bufferbin ace-window cnfonts geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
@@ -82,6 +78,9 @@
  ;; If there is more than one, they won't work right.
  '(org-document-title ((t ((\,@ headline) (\,@ variable-tuple) :height 2.0 :underline nil)))))
 
+(load  "completion")
+
+(load "init-jump")
 
 ;; paredit
 
