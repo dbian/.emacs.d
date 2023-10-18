@@ -52,7 +52,7 @@
  ;; If there is more than one, they won't work right.
  '(completion-auto-help t)
  '(current-language-environment "UTF-8")
- '(custom-enabled-themes '(whiteboard))
+ '(custom-enabled-themes '(tango-dark))
  '(display-battery-mode t)
  '(display-time-mode t)
  '(fido-mode t)
@@ -70,7 +70,7 @@
       (file "~/ws/dev-diary/comprehension.org")
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(package-selected-packages
-   '(cnfonts geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
+   '(bufferbin ace-window cnfonts geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
@@ -115,6 +115,10 @@
 
 ;; This is commented out since it's not a package:
 					;(load-theme 'gruvbox-light-hard t)
+
+(use-package ace-window
+  :config
+  (global-set-key (kbd "M-o") 'ace-window))
 
 (use-package olivetti
   :config (add-hook 'text-mode-hook 'olivetti-mode))
@@ -229,7 +233,9 @@
 ;; quick commit git
 (bind-key "C-c g" 'git-quick-commit)
 
-
+(use-package bufferbin
+  :ensure t
+  :bind  (("C-c h" . bufferbin)))
 
 ;; org mode
 (global-set-key (kbd "C-c a") #'org-agenda)
