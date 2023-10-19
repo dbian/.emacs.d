@@ -52,7 +52,7 @@
  ;; If there is more than one, they won't work right.
  '(completion-auto-help t)
  '(current-language-environment "UTF-8")
- '(custom-enabled-themes '(tango-dark))
+ '(custom-enabled-themes '(manoj-dark))
  '(display-battery-mode t)
  '(display-time-mode t)
  '(fringe-mode 0 nil (fringe))
@@ -66,10 +66,12 @@
       (file "~/ws/dev-diary/comprehension.org")
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(package-selected-packages
-   '(dumb-jump embark-consult embark consult marginalia orderless vertico bufferbin ace-window cnfonts geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
+   '(dumb-jump embark-consult embark consult marginalia orderless vertico ace-window cnfonts geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
+ '(tab-bar-history-mode t)
+ '(tab-bar-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -81,6 +83,7 @@
 (load  "completion")
 
 (load "init-jump")
+
 
 ;; paredit
 
@@ -232,9 +235,6 @@
 ;; quick commit git
 (bind-key "C-c g" 'git-quick-commit)
 
-(use-package bufferbin
-  :ensure t
-  :bind  (("C-c h" . bufferbin)))
 
 ;; org mode
 (global-set-key (kbd "C-c a") #'org-agenda)
