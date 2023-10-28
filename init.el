@@ -204,9 +204,19 @@
   :init
   (setq llama-cpp-host "beast")
   (setq llama-cpp-port 58870)
-  (setq llama-cpp-chat-input-prefix "<s>[INST] ")
-  (setq llama-cpp-chat-input-suffix " [/INST]")
-  (setq llama-cpp-chat-prompt "")
+  ;; codellama
+  ;; (setq llama-cpp-chat-input-prefix "<s>[INST] ")
+  ;; (setq llama-cpp-chat-input-suffix " [/INST]")
+  ;; zephyr
+  (setq llama-cpp-chat-input-prefix "<|user|>
+")
+  (setq llama-cpp-chat-input-suffix "</s>
+<|assistant|>
+")
+
+  (setq llama-cpp-chat-prompt "<|system|>
+</s>
+")
   :config
   (bind-key "C-c s" 'llama-cpp-chat-start)
   (bind-key "C-c C-s" 'llama-cpp-cancel)
