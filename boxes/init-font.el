@@ -43,3 +43,9 @@
   ((eq system-type 'gnu/linux)
    (cond
     ((member "WenQuanYi Micro Hei" (font-family-list)) "WenQuanYi Micro Hei")))))
+
+;; (set-face-attribute 'org-table nil :family "M+ 1m" :height 100 :weight 'normal)
+
+(use-package valign
+  :config
+  (add-hook 'org-mode-hook #'valign-mode))
