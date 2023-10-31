@@ -2,8 +2,9 @@
 
 ;;;; 原生设置，崩溃情况下也可用
 
+(setq inhibit-startup-screen 't)
 ;; 设置主题
-(add-to-list 'default-frame-alist '(undecorated . t))
+;; (add-to-list 'default-frame-alist '(undecorated . t))
 (add-to-list 'load-path (expand-file-name "boxes" "~/.emacs.d"))
 
 (setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
@@ -40,9 +41,9 @@
 (setq use-package-always-ensure t)
 
 
-(use-package cnfonts
-  :config
-  (cnfonts-mode 1))
+;; (use-package cnfonts
+;;   :config
+;;   (cnfonts-mode 1))
 
 
 (custom-set-variables
@@ -52,7 +53,7 @@
  ;; If there is more than one, they won't work right.
  '(completion-auto-help t)
  '(current-language-environment "UTF-8")
- '(custom-enabled-themes '(manoj-dark))
+ '(custom-enabled-themes '(modus-vivendi))
  '(display-battery-mode t)
  '(display-time-mode t)
  '(fringe-mode 0 nil (fringe))
@@ -80,9 +81,11 @@
  ;; If there is more than one, they won't work right.
  '(org-document-title ((t ((\,@ headline) (\,@ variable-tuple) :height 2.0 :underline nil)))))
 
+;; load my custom seperate init files
 (load  "completion")
 
 (load "init-jump")
+(load "init-font")
 
 
 ;; paredit
@@ -202,7 +205,7 @@
 (use-package llama-cpp
   :ensure t
   :init
-  (setq llama-cpp-host "beast")
+  (setq llama-cpp-host "127.0.0.1")
   (setq llama-cpp-port 58870)
   ;; codellama
   ;; (setq llama-cpp-chat-input-prefix "<s>[INST] ")
