@@ -66,6 +66,7 @@
      ("c" "new comprehension on things" entry
       (file "~/ws/dev-diary/comprehension.org")
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
+ '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
    '(valign dumb-jump embark-consult embark consult marginalia orderless vertico ace-window cnfonts geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
