@@ -205,7 +205,7 @@
 (use-package llama-cpp
   :ensure t
   :init
-  (setq llama-cpp-host "127.0.0.1")
+  (setq llama-cpp-host "192.168.31.67")
   (setq llama-cpp-port 58870)
   ;; codellama
   ;; (setq llama-cpp-chat-input-prefix "<s>[INST] ")

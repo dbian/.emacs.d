@@ -8,7 +8,7 @@
     (set-frame-font "Menlo" t t)))
  ((eq system-type 'gnu/linux)
   (when (member "DejaVu Sans Mono" (font-family-list))
-    (set-frame-font "DejaVu Sans Mono" t t))))
+    (set-frame-font "DejaVu Sans Mono-10" t t))))
 
 (set-fontset-font
  t
@@ -42,7 +42,8 @@
     ((member "Heiti TC" (font-family-list)) "Heiti TC")))
   ((eq system-type 'gnu/linux)
    (cond
-    ((member "WenQuanYi Micro Hei" (font-family-list)) "WenQuanYi Micro Hei")))))
+    ((member "WenQuanYi Micro Hei" (font-family-list)) "WenQuanYi Micro Hei")
+    ((member "Noto Sans CJK SC" (font-family-list)) "Noto Sans CJK SC-10")))))
 
 ;; (set-face-attribute 'org-table nil :family "M+ 1m" :height 100 :weight 'normal)
 
