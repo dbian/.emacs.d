@@ -68,7 +68,7 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '(valign dumb-jump embark-consult embark consult marginalia orderless vertico ace-window cnfonts geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
+   '(valign dumb-jump embark-consult embark consult marginalia orderless vertico ace-window geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
@@ -202,6 +202,12 @@
   (shell-command "git push")
   )
 
+(defun git-quick-pull ()
+  ""
+  (interactive)
+  (async-shell-command "git pull --autostash --rebase")
+  )
+
 ;; llama cpp server的集成
 (use-package llama-cpp
   :ensure t
@@ -226,7 +232,7 @@
   (bind-key "C-c C-s" 'llama-cpp-cancel)
   (bind-key "C-c RET" 'llama-cpp-chat-answer)
   (bind-key "C-c t" 'llama-cpp-code-region-task)
-)
+  )
 
 
 ;; clojure
@@ -248,6 +254,7 @@
 
 ;; quick commit git
 (bind-key "C-c g" 'git-quick-commit)
+(bind-key "C-c <f12>" 'git-quick-pull)
 
 
 ;; org mode
