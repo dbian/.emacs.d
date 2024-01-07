@@ -40,6 +40,22 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
+(unless (package-installed-p 'quelpa)
+  (with-temp-buffer
+    (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
+    (eval-buffer)
+    (quelpa-self-upgrade)))
+
+(quelpa '(tabby-mode :repo "ragnard/tabby-mode" :fetcher github))
+
+(use-package lsp-python-ms
+  :ensure t
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-python-ms)
+                         (lsp))))  ; or lsp-deferred
+
+(xterm-mouse-mode)
 
 ;; (use-package cnfonts
 ;;   :config
@@ -68,7 +84,7 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '(valign dumb-jump embark-consult embark consult marginalia orderless vertico ace-window geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
+   '(tabby-mode quelpa company valign dumb-jump embark-consult embark consult marginalia orderless vertico ace-window geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
@@ -87,7 +103,7 @@
 (load  "completion")
 
 (load "init-jump")
-(load "init-font")
+;(load "init-font")
 
 
 ;; paredit
@@ -235,14 +251,19 @@
   (bind-key "C-c t" 'llama-cpp-code-region-task)
   )
 
+; tabby
+(require 'tabby-mode)
+(setq tabby-api-url "http://192.168.31.67:58880")
+(bind-key "C-c k" 'tabby-complete)
+
 
 ;; clojure
-(use-package clojure-mode
-  :ensure t
-  )
+;; (use-package clojure-mode
+;;   :ensure t
+;;   )
 
-(use-package cider
-  :ensure t)
+;; (use-package cider
+;;   :ensure t)
 
 ;; git gutter
 (use-package git-gutter
