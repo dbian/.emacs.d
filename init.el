@@ -103,6 +103,7 @@
 (load  "completion")
 
 (load "init-jump")
+(load "init-funcs")
 ;(load "init-font")
 
 
