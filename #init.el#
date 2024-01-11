@@ -105,7 +105,7 @@
 (load "init-funcs")
 ;(load "init-font")
 
-;; (set-fontset-font t 'han (font-spec :family "Microsoft Yahei" :size 16)
+(set-fontset-font t 'han (font-spec :family "Microsoft Yahei" :size 16)
 ;; (set-fontset-font t 'latin (font-spec :family "JetBrains Mono" :size 14)
 
 ;; paredit
