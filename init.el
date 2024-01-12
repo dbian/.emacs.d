@@ -10,7 +10,26 @@
 (setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("nongnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
                          ("melpa"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
-(package-initialize)
+
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
+(straight-use-package 'neotree)
 
 ;; restart
 (global-set-key (kbd "C-c C-q") 'restart-emacs)
@@ -38,15 +57,12 @@
 (require 'use-package)
 (setq use-package-compute-statistics t)
 (require 'use-package-ensure)
-(setq use-package-always-ensure t)
 
-(unless (package-installed-p 'quelpa)
-  (with-temp-buffer
-    (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
-    (eval-buffer)
-    (quelpa-self-upgrade)))
-
-(quelpa '(tabby-mode :repo "ragnard/tabby-mode" :fetcher github))
+;(quelpa '(tabby-mode :repo "ragnard/tabby-mode" :fetcher github))
+(use-package tabby-mode
+  :straight (tabby-mode :type git :host github :repo "ragnard/tabby-mode"
+			:fork (:host github
+			       :repo "dbian/tabby-mode")))
 
 (use-package lsp-python-ms
   :ensure t
@@ -67,13 +83,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(blink-cursor-mode nil)
+ '(column-number-mode t)
  '(completion-auto-help t)
  '(current-language-environment "UTF-8")
  '(custom-enabled-themes '(wombat))
- '(display-battery-mode t)
- '(display-time-mode t)
  '(fringe-mode 0 nil (fringe))
  '(global-display-line-numbers-mode t)
+ '(indicate-empty-lines t)
  '(org-agenda-files '("~/ws/dev-diary"))
  '(org-capture-templates
    '(("t" "all kinds of todos" entry
@@ -84,19 +101,26 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '(tabby-mode quelpa company valign dumb-jump embark-consult embark consult marginalia orderless vertico ace-window geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
+   '())
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
  '(tab-bar-history-mode t)
- '(tab-bar-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:family "JetBrains Mono" :foundry "outline" :slant normal :weight regular :height 98 :width normal))))
  '(org-document-title ((t ((\,@ headline) (\,@ variable-tuple) :height 2.0 :underline nil)))))
+
+
+(defvar no-need-config-pkgs '(tabby-mode quelpa company valign dumb-jump embark-consult embark consult marginalia orderless vertico ace-window geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
+
+(dolist (pkg no-need-config-pkgs)
+  (eval `(use-package ,pkg
+    :straight t)))
 
 ;; load my custom seperate init files
 (load  "completion")
@@ -105,6 +129,7 @@
 (load "init-funcs")
 ;(load "init-font")
 
+;; (set-fontset-font t 'han (font-spec :family "Microsoft Yahei" :size 16)
 ;; (set-fontset-font t 'han (font-spec :family "Microsoft Yahei" :size 16)
 ;; (set-fontset-font t 'latin (font-spec :family "JetBrains Mono" :size 14)
 
@@ -149,7 +174,7 @@
   :config (add-hook 'text-mode-hook 'olivetti-mode))
 
 ;; (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(add-hook 'prog-mode-hook #'hl-line-mode)
+;; (add-hook 'prog-mode-hook #'hl-line-mode)
 
 ;; (mapc (lambda (mode)
 ;; 	(add-hook 'prog-mode-hook mode))

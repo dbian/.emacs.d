@@ -1,1 +1,0 @@
-((quelpa :repo "quelpa/quelpa" :fetcher github) (tabby-mode :repo "ragnard/tabby-mode" :fetcher github))
