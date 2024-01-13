@@ -116,7 +116,7 @@
  '(org-document-title ((t ((\,@ headline) (\,@ variable-tuple) :height 2.0 :underline nil)))))
 
 
-(defvar no-need-config-pkgs '(tabby-mode quelpa company valign dumb-jump embark-consult embark consult marginalia orderless vertico ace-window geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
+(defvar no-need-config-pkgs '(tabby-mode company valign dumb-jump embark-consult embark consult marginalia orderless vertico ace-window geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
 
 (dolist (pkg no-need-config-pkgs)
   (eval `(use-package ,pkg
@@ -172,6 +172,7 @@
 
 (use-package olivetti
   :config (add-hook 'text-mode-hook 'olivetti-mode))
+
 
 ;; (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 ;; (add-hook 'prog-mode-hook #'hl-line-mode)
@@ -283,9 +284,14 @@
   )
 
 ; tabby
-(require 'tabby-mode)
-(setq tabby-api-url "http://192.168.31.67:58880")
-(bind-key "C-c k" 'tabby-complete)
+(use-package tabby-mode
+  :init
+  (setq tabby-api-url "http://192.168.31.67:58880")
+  (add-hook 'prog-mode-hook #'tabby-mode)
+  )
+
+
+;; (bind-key "C-c k" 'tabby-complete)
 
 
 ;; clojure
