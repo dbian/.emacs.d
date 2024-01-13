@@ -306,7 +306,7 @@
 
 
 ;; quick commit git
-(bind-key "C-c C-i" 'git-quick-commit)
+(bind-key "C-c C-d" 'git-quick-commit)
 (bind-key "C-c C-p" 'git-quick-pull)
 
 

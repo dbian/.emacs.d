@@ -48,7 +48,7 @@
  ("sesman" . "e0f555f963c9f02f8e4a50e06fc353eb4c15ee77")
  ("spinner" . "67681b8f1580a7cd7a1aa49d78eaa30d11f7c178")
  ("straight.el" . "b3760f5829dba37e855add7323304561eb57a3d4")
- ("tabby-mode" . "1b95bc63475a4dc3996a39eb718080f0e46a3f33")
+ ("tabby-mode" . "49964836156685323991f4e8aa707e464641f47a")
  ("transient" . "a2fe06ac00d419ddcbf8f9ef59bf1c4d2350ccbe")
  ("use-package" . "a6e856418d2ebd053b34e0ab2fda328abeba731c")
  ("v2ex-mode" . "b7d19bb594b43ea3824a6f215dd1e5d1d4c0e8ad")
