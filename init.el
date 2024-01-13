@@ -52,11 +52,10 @@
 (recentf-mode 1)
 
 ;; disable the toolbar
-;;(tool-bar-mode -1)
 
 (require 'use-package)
 (setq use-package-compute-statistics t)
-(require 'use-package-ensure)
+;; (require 'use-package-ensure)
 
 ;(quelpa '(tabby-mode :repo "ragnard/tabby-mode" :fetcher github))
 (use-package tabby-mode
@@ -65,7 +64,7 @@
 			       :repo "dbian/tabby-mode")))
 
 (use-package lsp-python-ms
-  :ensure t
+  :straight t
   :init (setq lsp-python-ms-auto-install-server t)
   :hook (python-mode . (lambda ()
                          (require 'lsp-python-ms)
@@ -106,6 +105,7 @@
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
  '(tab-bar-history-mode t)
+ '(global-tab-line-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -290,11 +290,11 @@
 
 ;; clojure
 ;; (use-package clojure-mode
-;;   :ensure t
+;;   :straight t
 ;;   )
 
 ;; (use-package cider
-;;   :ensure t)
+;;   :straight t)
 
 ;; git gutter
 (use-package git-gutter
@@ -306,8 +306,8 @@
 
 
 ;; quick commit git
-(bind-key "C-c <f11>" 'git-quick-commit)
-(bind-key "C-c <f12>" 'git-quick-pull)
+(bind-key "C-c C-i" 'git-quick-commit)
+(bind-key "C-c C-p" 'git-quick-pull)
 
 
 ;; org mode
