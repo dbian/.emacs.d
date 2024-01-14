@@ -68,7 +68,7 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '(sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
    '((sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
      (vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
@@ -112,11 +112,32 @@
   :bind ("C-=" . er/expand-region))
 
 ;; lsp setup
-(use-package eglot
+;; (use-package eglot
+;;   :ensure t
+;;   :defer t
+;;   :hook (python-mode . eglot-ensure))
+(use-package lsp-mode
   :ensure t
-  :defer t
-  :hook (python-mode . eglot-ensure))
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (python-mode . lsp)
+         (racket-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :config
+  (use-package lsp-pyright
+    :ensure t
+    :hook (python-mode . (lambda ()
+                           (require 'lsp-pyright)
+                           (lsp))))  ; or lsp-deferred
+  :commands lsp)
 
+;; optionally
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
 
 ;; (use-package lsp-mode
 ;;   :ensure t
