@@ -68,9 +68,10 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '(sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
-   '((vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
+   '((sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
+     (vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
  '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
@@ -116,7 +117,7 @@
   :defer t
   :hook (python-mode . eglot-ensure))
 
-(add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
+
 ;; (use-package lsp-mode
 ;;   :ensure t
 ;;   :init
@@ -143,26 +144,39 @@
   :ensure t
   )
 
-(use-package eldoc-box
-  :ensure t
-  ;; :config
-  ;; (eldoc-box-hover-mode)
+(if (display-graphic-p)
+    (use-package eldoc-box
+      :ensure t
+      :config
+      (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
+      )
+  (progn
+    (message "terminal mode will fallback eldoc ui to original")
+    ;; (use-package sideline
+    ;;   :ensure t
+    ;;   :init
+    ;;   (setq sideline-backends-left-skip-current-line t ; don't display on current line (left)
+    ;;         sideline-backends-right-skip-current-line t ; don't display on current line (right)
+    ;;         sideline-order-left 'down			; or 'up
+    ;;         sideline-order-right 'up			; or 'down
+    ;;         sideline-format-left "%s   " ; format for left aligment
+    ;;         sideline-format-right "   %s" ; format for right aligment
+    ;;         sideline-priority 100	  ; overlays' priority
+    ;;         sideline-display-backend-name t)
+    ;;   :hook (				     ; for `sideline-flycheck`
+    ;; 	     (flymake-mode  . sideline-mode)) ; for `sideline-flymake`
+    ;;   )
+    ;; (use-package sideline-eldoc
+    ;;   :vc (:fetcher github :repo ginqi7/sideline-eldoc)
+    ;;   :config
+    ;;   (add-hook 'eglot-managed-mode-hook #'sideline-mode t)
+    ;;   )   
+    ;; )            ; display the backend name
+    )
   )
 
-;; (use-package sideline
-;;   :ensure t
-;;   :init
-;;   (setq sideline-backends-left-skip-current-line t   ; don't display on current line (left)
-;;         sideline-backends-right-skip-current-line t  ; don't display on current line (right)
-;;         sideline-order-left 'down                    ; or 'up
-;;         sideline-order-right 'up                     ; or 'down
-;;         sideline-format-left "%s   "                 ; format for left aligment
-;;         sideline-format-right "   %s"                ; format for right aligment
-;;         sideline-priority 100                        ; overlays' priority
-;;         sideline-display-backend-name t)
-;;   :hook ((flycheck-mode . sideline-mode)   ; for `sideline-flycheck`
-;; 	 (flymake-mode  . sideline-mode))  ; for `sideline-flymake`
-;;   )            ; display the backend name
+
+
 
 ;; (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 ;; (add-hook 'prog-mode-hook #'hl-line-mode)
