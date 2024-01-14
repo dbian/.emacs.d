@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 ;;;; 原生设置，崩溃情况下也可用
-
+(xterm-mouse-mode)
 (setq inhibit-startup-screen 't)
 ;; 设置主题
 ;; (add-to-list 'default-frame-alist '(undecorated . t))
@@ -10,26 +10,10 @@
 (setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("nongnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
                          ("melpa"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
-
-
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name
-        "straight/repos/straight.el/bootstrap.el"
-        (or (bound-and-true-p straight-base-dir)
-            user-emacs-directory)))
-      (bootstrap-version 7))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
-(straight-use-package 'use-package)
-(straight-use-package 'neotree)
+(package-initialize)
+; add vc keyword for use-package
+(unless (package-installed-p 'vc-use-package)
+  (package-vc-install "https://github.com/slotThe/vc-use-package"))
 
 ;; restart
 (global-set-key (kbd "C-c C-q") 'restart-emacs)
@@ -55,27 +39,10 @@
 
 (require 'use-package)
 (setq use-package-compute-statistics t)
-;; (require 'use-package-ensure)
+(require 'use-package-ensure)
 
-;(quelpa '(tabby-mode :repo "ragnard/tabby-mode" :fetcher github))
 (use-package tabby-mode
-  :straight (tabby-mode :type git :host github :repo "ragnard/tabby-mode"
-			:fork (:host github
-			       :repo "dbian/tabby-mode")))
-
-(use-package lsp-python-ms
-  :straight t
-  :init (setq lsp-python-ms-auto-install-server t)
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-python-ms)
-                         (lsp))))  ; or lsp-deferred
-
-(xterm-mouse-mode)
-
-;; (use-package cnfonts
-;;   :config
-;;   (cnfonts-mode 1))
-
+  :vc (:fetcher github :repo dbian/tabby-mode))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -90,6 +57,12 @@
  '(fringe-mode 0 nil (fringe))
  '(global-display-line-numbers-mode t)
  '(indicate-empty-lines t)
+ '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
+ '(scroll-bar-mode nil)
+ '(size-indication-mode t)
+ '(tab-bar-history-mode t)
+ '(global-tab-line-mode t)
+ '(tool-bar-mode nil)
  '(org-agenda-files '("~/ws/dev-diary"))
  '(org-capture-templates
    '(("t" "all kinds of todos" entry
@@ -100,53 +73,23 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '())
- '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
- '(scroll-bar-mode nil)
- '(size-indication-mode t)
- '(tab-bar-history-mode t)
- '(global-tab-line-mode t)
- '(tool-bar-mode nil))
+   '(company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key lsp-ui lsp-mode cider geiser-chibi ace-window vertico orderless marginalia embark-consult dumb-jump valign company tabby-mode))
+ '(package-vc-selected-packages
+   '((vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "JetBrains Mono" :foundry "outline" :slant normal :weight regular :height 98 :width normal))))
- '(org-document-title ((t ((\,@ headline) (\,@ variable-tuple) :height 2.0 :underline nil)))))
-
-
-(defvar no-need-config-pkgs '(tabby-mode company valign dumb-jump embark-consult embark consult marginalia orderless vertico ace-window geiser-chibi cider lsp-mode lsp-ui which-key v2ex-mode use-package paredit olivetti magit llama-cpp git-gutter company-box clojure-mode))
-
-(dolist (pkg no-need-config-pkgs)
-  (eval `(use-package ,pkg
-    :straight t)))
+ )
 
 ;; load my custom seperate init files
 (load  "completion")
 
 (load "init-jump")
 (load "init-funcs")
-;(load "init-font")
 
-;; (set-fontset-font t 'han (font-spec :family "Microsoft Yahei" :size 16)
-;; (set-fontset-font t 'han (font-spec :family "Microsoft Yahei" :size 16)
-;; (set-fontset-font t 'latin (font-spec :family "JetBrains Mono" :size 14)
-
-;; paredit
-
-;;(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code."
-;;  t)
-
-;; (mapc #'straight-use-package
-;;       '(
-;; 	;; git-gutter
-	
-	
-;; 	;; exec-path-from-shell
-;; 		olivetti ;; balance org mode
-;; 	cider
-;; 	))
 
 (use-package company
   :config (global-company-mode))
@@ -154,13 +97,14 @@
 (use-package company-box
   :config (add-hook 'company-mode-hook 'company-box-mode))
 
+; LSP setup
 (use-package lsp-mode
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
-  
+  :hook
+  (lsp-mode . lsp-enable-which-key-integration)
   :commands lsp)
-
 (use-package lsp-ui :commands lsp-ui-mode)
 
 ;; This is commented out since it's not a package:
@@ -296,11 +240,11 @@
 
 ;; clojure
 ;; (use-package clojure-mode
-;;   :straight t
+;;   :ensure t
 ;;   )
 
 ;; (use-package cider
-;;   :straight t)
+;;   :ensure t)
 
 ;; git gutter
 (use-package git-gutter
