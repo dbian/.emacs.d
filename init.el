@@ -56,13 +56,8 @@
  '(custom-enabled-themes '(wombat))
  '(fringe-mode 0 nil (fringe))
  '(global-display-line-numbers-mode t)
- '(indicate-empty-lines t)
- '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
- '(scroll-bar-mode nil)
- '(size-indication-mode t)
- '(tab-bar-history-mode t)
  '(global-tab-line-mode t)
- '(tool-bar-mode nil)
+ '(indicate-empty-lines t)
  '(org-agenda-files '("~/ws/dev-diary"))
  '(org-capture-templates
    '(("t" "all kinds of todos" entry
@@ -73,16 +68,20 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '(company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key lsp-ui lsp-mode cider geiser-chibi ace-window vertico orderless marginalia embark-consult dumb-jump valign company tabby-mode))
+   '(sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
-   '((vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package"))))
+   '((vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
+ '(recentf-exclude '(".*\\.gz" ".*\\.zip"))
+ '(scroll-bar-mode nil)
+ '(size-indication-mode t)
+ '(tab-bar-history-mode t)
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "JetBrains Mono" :foundry "outline" :slant normal :weight regular :height 98 :width normal))))
- )
+ '(default ((t (:family "JetBrains Mono" :foundry "outline" :slant normal :weight regular :height 98 :width normal)))))
 
 ;; load my custom seperate init files
 (load  "completion")
@@ -97,18 +96,6 @@
 (use-package company-box
   :config (add-hook 'company-mode-hook 'company-box-mode))
 
-; LSP setup
-(use-package lsp-mode
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
-  :hook
-  (lsp-mode . lsp-enable-which-key-integration)
-  :commands lsp)
-(use-package lsp-ui :commands lsp-ui-mode)
-
-;; This is commented out since it's not a package:
-					;(load-theme 'gruvbox-light-hard t)
 
 (use-package ace-window
   :config
@@ -117,6 +104,65 @@
 (use-package olivetti
   :config (add-hook 'text-mode-hook 'olivetti-mode))
 
+;; # better programing
+
+(use-package expand-region
+  :ensure t
+  :bind ("C-=" . er/expand-region))
+
+;; lsp setup
+(use-package eglot
+  :ensure t
+  :defer t
+  :hook (python-mode . eglot-ensure))
+
+(add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :init
+;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+;;   (setq lsp-keymap-prefix "C-c l")
+;;   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+;;          (python-mode . lsp)
+;;          ;; if you want which-key integration
+;;          (lsp-mode . lsp-enable-which-key-integration))
+;;   :commands lsp)
+
+;; optionally
+;; (use-package lsp-ui
+;;   :ensure t
+;;   :commands lsp-ui-mode)
+
+(use-package pet
+  :ensure t
+  :config
+  (add-hook 'python-base-mode-hook 'pet-mode -10))
+
+; racket
+(use-package racket-mode
+  :ensure t
+  )
+
+(use-package eldoc-box
+  :ensure t
+  ;; :config
+  ;; (eldoc-box-hover-mode)
+  )
+
+;; (use-package sideline
+;;   :ensure t
+;;   :init
+;;   (setq sideline-backends-left-skip-current-line t   ; don't display on current line (left)
+;;         sideline-backends-right-skip-current-line t  ; don't display on current line (right)
+;;         sideline-order-left 'down                    ; or 'up
+;;         sideline-order-right 'up                     ; or 'down
+;;         sideline-format-left "%s   "                 ; format for left aligment
+;;         sideline-format-right "   %s"                ; format for right aligment
+;;         sideline-priority 100                        ; overlays' priority
+;;         sideline-display-backend-name t)
+;;   :hook ((flycheck-mode . sideline-mode)   ; for `sideline-flycheck`
+;; 	 (flymake-mode  . sideline-mode))  ; for `sideline-flymake`
+;;   )            ; display the backend name
 
 ;; (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 ;; (add-hook 'prog-mode-hook #'hl-line-mode)
