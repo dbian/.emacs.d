@@ -7,9 +7,14 @@
 ;; (add-to-list 'default-frame-alist '(undecorated . t))
 (add-to-list 'load-path (expand-file-name "boxes" "~/.emacs.d"))
 
-(setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+(setq package-archives '(("jcs-elpa" . "https://jcs-emacs.github.io/jcs-elpa/packages/")
+			 ("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("nongnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
                          ("melpa"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+(setq package-archive-priorities '(("melpa"    . 5)
+				   ("gnu"    . 5)
+				   ("nongnu"    . 5)
+                                   ("jcs-elpa" . 0)))
 (package-initialize)
 ; add vc keyword for use-package
 (unless (package-installed-p 'vc-use-package)
@@ -68,7 +73,7 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '(lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
    '((sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
      (vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
@@ -163,6 +168,21 @@
 ; racket
 (use-package racket-mode
   :ensure t
+  )
+
+; elisp
+(use-package elsa
+  :ensure t
+  :config
+  (progn
+    (elsa-lsp-register)
+    (add-hook 'emacs-lisp-mode-hook #'lsp)
+    )
+  )
+(use-package flymake-elsa
+  :ensure t
+  :config
+  (add-hook 'emacs-lisp-mode-hook #'flymake-elsa-load)
   )
 
 (if (display-graphic-p)
@@ -401,4 +421,4 @@
 ;;(add-hook 'org-mode-hook #'org-sync-mode)
 
 ;; scheme
-(use-package geiser-chibi)
+;; (use-package geiser-chibi)
