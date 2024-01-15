@@ -1,3 +1,10 @@
+;; set for unicode
+
+(cond
+ ((member "JetBrains Mono" (font-family-list)) (progn
+						 (message "set ascii font")
+						 (set-frame-font "JetBrains Mono")
+						 )))
 ;; set font for chinese
 (set-fontset-font
  t
