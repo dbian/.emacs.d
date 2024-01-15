@@ -74,7 +74,7 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '(exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
    '((sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
      (vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
@@ -118,6 +118,13 @@
   :ensure t
   :bind ("C-=" . er/expand-region))
 
+;; search
+(use-package rg
+  :config
+  (rg-enable-default-bindings)
+  )
+
+
 ;; lsp setup
 ;; (use-package eglot
 ;;   :ensure t
@@ -138,7 +145,7 @@
     :ensure t
     :hook (python-mode . (lambda ()
                            (require 'lsp-pyright)
-                           (lsp))))  ; or lsp-deferred
+                           (lsp))))	; or lsp-deferred
   :commands lsp)
 
 ;; optionally
