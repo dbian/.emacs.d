@@ -45,6 +45,7 @@
 (require 'use-package)
 (setq use-package-compute-statistics t)
 (require 'use-package-ensure)
+(setq use-package-always-ensure t)
 
 (use-package tabby-mode
   :vc (:fetcher github :repo dbian/tabby-mode))
@@ -73,7 +74,7 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '(python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
    '((sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
      (vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
@@ -87,7 +88,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "JetBrains Mono" :foundry "outline" :slant normal :weight regular :height 98 :width normal)))))
+ '(default ((t (:family "JetBrains Mono" :foundry "outline" :slant normal :weight regular :height 98 :width normal))))
+ '(tab-line ((t (:inherit variable-pitch :background "grey85" :foreground "black" :height 1.1)))))
 
 ;; load my custom seperate init files
 (load  "completion")
