@@ -73,7 +73,7 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '(elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
    '((sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
      (vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
@@ -160,10 +160,51 @@
 ;;   :ensure t
 ;;   :commands lsp-ui-mode)
 
+; python
+(use-package exec-path-from-shell
+  :ensure t
+  :if (memq (window-system) '(mac ns))
+  :config (exec-path-from-shell-initialize))
+(use-package python-pytest :ensure t)
+
+(use-package python-black :ensure t)
+
+(use-package python-isort :ensure t)
 (use-package pet
   :ensure t
   :config
-  (add-hook 'python-base-mode-hook 'pet-mode -10))
+  (add-hook 'python-base-mode-hook
+	    (lambda ()
+	      (pet-mode)
+	      (setq-local python-shell-interpreter (pet-executable-find "python")
+			  python-shell-virtualenv-root (pet-virtualenv-root))
+
+	      ;; (pet-eglot-setup)
+	      ;; (eglot-ensure)
+
+					;(pet-flycheck-setup)
+					;(flycheck-mode)
+
+	      ;; (setq-local lsp-jedi-executable-command
+	      ;;             (pet-executable-find "jedi-language-server"))
+
+	      (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter
+			  lsp-pyright-venv-path python-shell-virtualenv-root)
+
+	      (lsp)
+
+	      (setq-local dap-python-executable python-shell-interpreter)
+
+	      (setq-local python-pytest-executable (pet-executable-find "pytest"))
+
+	      (when-let ((black-executable (pet-executable-find "black")))
+		(setq-local python-black-command black-executable)
+		(python-black-on-save-mode))
+
+	      (when-let ((isort-executable (pet-executable-find "isort")))
+		(setq-local python-isort-command isort-executable)
+		(python-isort-on-save-mode))))
+  )
 
 ; racket
 (use-package racket-mode
@@ -171,14 +212,15 @@
   )
 
 ; elisp
-(use-package elsa
-  :ensure t
-  :config
-  (progn
-    (elsa-lsp-register)
-    (add-hook 'emacs-lisp-mode-hook #'lsp)
-    )
-  )
+;; (use-package elsa
+;;   :ensure t
+;;   :config
+;;   (progn
+;;     (elsa-lsp-register)
+;;     (add-hook 'emacs-lisp-mode-hook #'lsp)
+;;     )
+;;   )
+
 (use-package flymake-elsa
   :ensure t
   :config
@@ -335,6 +377,24 @@
   (add-hook 'prog-mode-hook #'tabby-mode)
   )
 
+; side tree
+(use-package dired-sidebar
+  :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
+  :ensure t
+  :commands (dired-sidebar-toggle-sidebar)
+  :init
+  (add-hook 'dired-sidebar-mode-hook
+            (lambda ()
+              (unless (file-remote-p default-directory)
+                (auto-revert-mode))))
+  :config
+  (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
+  (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
+
+  (setq dired-sidebar-subtree-line-prefix "__")
+  (setq dired-sidebar-theme 'vscode)
+  (setq dired-sidebar-use-term-integration t)
+  (setq dired-sidebar-use-custom-font t))
 
 ;; (bind-key "C-c k" 'tabby-complete)
 
