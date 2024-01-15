@@ -96,6 +96,7 @@
 
 (load "init-jump")
 (load "init-funcs")
+(load "init-font")
 
 
 (use-package company
