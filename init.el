@@ -59,7 +59,9 @@
  '(column-number-mode t)
  '(completion-auto-help t)
  '(current-language-environment "UTF-8")
- '(custom-enabled-themes '(wombat))
+ '(custom-enabled-themes '(solarized-gruvbox-light))
+ '(custom-safe-themes
+   '("524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307" "3e200d49451ec4b8baa068c989e7fba2a97646091fd555eca0ee5a1386d56077" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "833ddce3314a4e28411edf3c6efde468f6f2616fc31e17a62587d6a9255f4633" "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36" "4c56af497ddf0e30f65a7232a8ee21b3d62a8c332c6b268c81e9ea99b11da0d3" default))
  '(fringe-mode 0 nil (fringe))
  '(global-display-line-numbers-mode t)
  '(global-tab-line-mode t)
@@ -74,7 +76,7 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '(d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
    '((sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
      (vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
@@ -176,7 +178,10 @@
   :config (exec-path-from-shell-initialize))
 (use-package python-pytest :ensure t)
 
-(use-package python-black :ensure t)
+(use-package python-black :ensure t
+  :demand t
+  :after python
+  )
 
 (use-package python-isort :ensure t)
 (use-package pet
@@ -220,7 +225,18 @@
   :ensure t
   )
 
-; elisp
+; d2 mode
+(use-package d2-mode)
+
+(use-package graphviz-dot-mode
+  :ensure t
+  :config
+  (setq graphviz-dot-indent-width 4)
+  (setq graphviz-dot-preview-extension "svg")
+  )
+
+
+					; elisp
 ;; (use-package elsa
 ;;   :ensure t
 ;;   :config
@@ -400,8 +416,8 @@
   (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
   (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
 
-  (setq dired-sidebar-subtree-line-prefix "__")
-  (setq dired-sidebar-theme 'vscode)
+  ;; (setq dired-sidebar-subtree-line-prefix "__")
+  (setq dired-sidebar-theme 'nerd)
   (setq dired-sidebar-use-term-integration t)
   (setq dired-sidebar-use-custom-font t))
 
@@ -491,3 +507,22 @@
 
 ;; scheme
 ;; (use-package geiser-chibi)
+
+
+(defun replace-pair-of-brackets ()
+  "替换选中的括号对为另一种类型的括号对."
+  (interactive)
+  (let* ((start-pos (region-beginning))
+         (end-pos (region-end))
+         (original-text (buffer-substring start-pos end-pos))
+         (left-bracket (read-char "请输入另一种括号的左类型: "))
+         (right-bracket (cdr (assoc left-bracket '((?\( . ?\))
+                                                   (?\[ . ?\])
+                                                   (?\{ . ?\})))))
+	 (new-text (concat (char-to-string left-bracket)
+                      (substring original-text 1 (- (length original-text) 1))
+                      (char-to-string right-bracket)))
+	 ) ; 可以根据需要添加其他括号类型的映射
+
+    (delete-region start-pos end-pos)
+    (insert new-text)))
