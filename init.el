@@ -76,7 +76,7 @@
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
-   '(solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
    '((sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
      (vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
@@ -528,20 +528,29 @@
     (insert new-text)))
 
 ;; Restore Opened Files
-(progn
-  (desktop-save-mode 1)
-  ;; save when quit
-  (setq desktop-save t)
+;; (progn
+;;   (desktop-save-mode 1)
+;;   ;; save when quit
+;;   (setq desktop-save t)
 
-  ;; no ask if crashed
-  (setq desktop-load-locked-desktop t)
+;;   ;; no ask if crashed
+;;   (setq desktop-load-locked-desktop t)
 
-  (setq desktop-restore-frames t)
+;;   (setq desktop-restore-frames nil)
 
-  (setq desktop-auto-save-timeout 300)
-
-  ;; save some global vars
-  (setq desktop-globals-to-save nil)
-  ;; 2023-09-16 default
-  ;; '(desktop-missing-file-warning tags-file-name tags-table-list search-ring regexp-search-ring register-alist file-name-history)
-  )
+;;   (setq desktop-auto-save-timeout 300)
+;;   (setq desktop-buffers-not-to-save
+;;        (concat "\\("
+;;                "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+;;                "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+;; 	       "\\|*scratch*"
+;;                "\\)$"))
+;;   (add-to-list 'desktop-modes-not-to-save 'dired-mode)
+;;   (add-to-list 'desktop-modes-not-to-save 'Info-mode)
+;;   (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+;;   (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+;;   ;; save some global vars
+;;   (add-to-list 'desktop-globals-to-save 'register-alist)
+;;   ;; 2023-09-16 default
+;;   ;; '(desktop-missing-file-warning tags-file-name tags-table-list search-ring regexp-search-ring register-alist file-name-history)
+;;   )
