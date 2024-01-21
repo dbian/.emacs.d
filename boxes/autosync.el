@@ -29,8 +29,8 @@
     (setq func (lambda ()
 		 (org-sync-git-fetch-rebase sync-dir)))
     (run-with-timer 0 300
-		    #'func)
-    (add-hook 'kill-emacs-hook #'func)
+		    func)
+    (add-hook 'kill-emacs-hook func)
     )
   )
 
