@@ -26,8 +26,11 @@
 (defun sync-emacs-d (sync-dir)
   (when (file-directory-p sync-dir)
     (message (format "syncing git for %s" sync-dir))
+    (setq func (lambda ()
+		 (org-sync-git-fetch-rebase sync-dir)))
     (run-with-timer 0 300
-		    #'org-sync-git-fetch-rebase sync-dir)
+		    #'func)
+    (add-hook 'kill-emacs-hook #'func)
     )
   )
 
