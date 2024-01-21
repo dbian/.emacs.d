@@ -61,7 +61,7 @@
         (message "GAS: 执行 git rebase...")
         (shell-command (cd-sync-dir "git pull --rebase --autostash"))
         (git-quick-commit-dir sync-dir)))
-    (message "GAS: 同步完成")
+    (message (format "GAS: 同步完成 %s" sync-dir))
     ))
 
 (defun git-quick-commit-dir (sync-dir)
@@ -72,7 +72,7 @@
   )
 
 ;; git commit current git directory, with optional one line message, default title is current timestamp
-(defun git-quick-commit ()
+(defun git-quick-commit (args)
   "git commit elpa submodules, with one line message, default title is current timestamp"
   (interactive "P")
   (shell-command "git add .")
