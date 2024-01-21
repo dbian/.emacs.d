@@ -11,10 +11,10 @@
 
 ;;;;; -> backup
 
-(define-minor-mode org-sync-mode
+(define-minor-mode org-sync-mode-gas
   "Git Auto Sync Mode."
   :init-value nil
-  :lighter "GAS"
+  :lighter " GAS"
   :global nil
   :group 'OrgSync
   (if org-sync-mode
@@ -42,7 +42,9 @@
   (shell-command "git fetch")
   (let ((output (shell-command-to-string "git status --porcelain")))
     (if (string-empty-p output)
-        (message "GAS： 本地已是最新状态，无需更新。")
+        (progn
+	  (message "GAS： 本地无修改，进行rebase操作")
+	  (shell-command "git rebase origin/main"))
       (progn
         (message "GAS: 远端有新的修改，合并更新...")
         (message "执行 git rebase...")
