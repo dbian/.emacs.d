@@ -350,20 +350,7 @@
   (insert (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)))
   )
 
-;; git commit current git directory, with optional one line message, default title is current timestamp
-(defun git-quick-commit (arg)
-  "git commit elpa submodules, with one line message, default title is current timestamp"
-  (interactive "P")
-  (shell-command "git add .")
-  (shell-command (concat "git commit -m \"" (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)) "\""))
-  (shell-command "git push")
-  )
 
-(defun git-quick-pull ()
-  ""
-  (interactive)
-  (async-shell-command "git pull --autostash --rebase")
-  )
 
 ;; llama cpp server的集成
 (use-package llama-cpp
@@ -441,67 +428,21 @@
 ;;(tab-bar-mode t)
 
 
-;; quick commit git
-(bind-key "C-c C-d" 'git-quick-commit)
-(bind-key "C-c C-p" 'git-quick-pull)
+;; ;; quick commit git
+;; (bind-key "C-c C-d" 'git-quick-commit)
+;; (bind-key "C-c C-p" 'git-quick-pull)
 
 
-;; org mode
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c c") #'org-capture)
-(global-set-key (kbd "C-c b") #'org-switchb)
-(global-set-key (kbd "<f12>") #'eshell)
-(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
-(setq org-directory "~/ws/dev-diary")
+;; ;; org mode
+;; (global-set-key (kbd "C-c a") #'org-agenda)
+;; (global-set-key (kbd "C-c c") #'org-capture)
+;; (global-set-key (kbd "C-c b") #'org-switchb)
+;; (global-set-key (kbd "<f12>") #'eshell)
+;; (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+;; (setq org-directory "~/ws/dev-diary")
 
 
-(define-minor-mode org-sync-mode
-  "Org Sync Mode"
-  :init-value nil
-  :lighter " OrgSync"
-  :global nil
-  :group 'OrgSync
-  (if org-sync-mode
-      (org-sync-start-timer)
-    (org-sync-stop-timer)))
 
-(defvar org-sync-timer nil
-  "定时器对象")
-
-(defun org-sync-start-timer ()
-  "启动定时器"
-  (setq org-sync-timer
-        (run-with-timer 0 30 #'org-sync-git-fetch-rebase)))
-
-(defun org-sync-stop-timer ()
-  "停止定时器"
-  (when org-sync-timer
-    (cancel-timer org-sync-timer)
-    (setq org-sync-timer nil)))
-
-(defun org-sync-git-fetch-rebase ()
-  "执行 git fetch 和 git rebase 操作"
-  (message "执行 git fetch...")
-  (shell-command "git fetch")
-  (let ((output (shell-command-to-string "git status --porcelain")))
-    (if (string-empty-p output)
-        (message "本地已是最新状态，无需更新。")
-      (progn
-        (message "远端有新的修改，请合并更新。")
-        (message "执行 git rebase...")
-        (shell-command "git rebase origin/main --autostash")
-        (let ((local-modified (shell-command-to-string "git status --porcelain")))
-          (when (not (string-empty-p local-modified))
-            (message "本地有未提交的修改，请先提交或保存！")
-            (message "提示：执行 `git-auto-commit` 函数可以自动提交修改。")
-            (org-sync-git-auto-commit)))))))
-
-(defun org-sync-git-auto-commit ()
-  "执行 git-auto-commit 函数"
-  (message "执行 git-auto-commit...")
-  ;; 在这里调用 `git-auto-commit` 函数的外部实现
-  (git-quick-commit)
-  )
 
 ;;(add-hook 'org-mode-hook #'org-sync-mode)
 
