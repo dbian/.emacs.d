@@ -22,21 +22,12 @@
     (org-sync-stop-timer)))
 
 
-
-(defun org-sync-start-timer ()
-  "启动定时器"
-  (setq org-sync-timer
-        (run-with-timer 0 300 #'org-sync-git-fetch-rebase)))
-
 ; sync .emacs.d once
 (defun sync-emacs-d (sync-dir)
   (when (file-directory-p sync-dir)
     (message (format "syncing git for %s" sync-dir))
     (run-with-timer 0 300
-		    (lambda ()
-		      (shell-command (format "cd %s" sync-dir))
-		      (org-sync-git-fetch-rebase sync-dir)
-		      ))
+		    #'org-sync-git-fetch-rebase sync-dir)
     )
   )
 
