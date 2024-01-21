@@ -29,6 +29,14 @@
   (setq org-sync-timer
         (run-with-timer 0 300 #'org-sync-git-fetch-rebase)))
 
+; sync .emacs.d once
+(defun sync-emacs-d ()
+  (interactive)
+  (shell-command "cd ~/.emacs.d")
+  (org-sync-git-fetch-rebase)
+  )
+
+
 (defun org-sync-stop-timer ()
   "停止定时器"
   (when org-sync-timer
