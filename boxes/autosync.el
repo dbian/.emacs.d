@@ -27,7 +27,7 @@
 (defun org-sync-start-timer ()
   "启动定时器"
   (setq org-sync-timer
-        (run-with-timer 0 30 #'org-sync-git-fetch-rebase)))
+        (run-with-timer 0 300 #'org-sync-git-fetch-rebase)))
 
 (defun org-sync-stop-timer ()
   "停止定时器"
