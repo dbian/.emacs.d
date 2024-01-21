@@ -21,8 +21,7 @@
       (org-sync-start-timer)
     (org-sync-stop-timer)))
 
-(defvar org-sync-timer nil
-  "定时器对象.")
+
 
 (defun org-sync-start-timer ()
   "启动定时器"
@@ -30,36 +29,47 @@
         (run-with-timer 0 300 #'org-sync-git-fetch-rebase)))
 
 ; sync .emacs.d once
-(defun sync-emacs-d ()
-  (interactive)
-  (shell-command "cd ~/.emacs.d")
-  (org-sync-git-fetch-rebase)
+(defun sync-emacs-d (sync-dir)
+  (when (file-directory-p sync-dir)
+    (message (format "syncing git for %s" sync-dir))
+    (run-with-timer 0 300
+		    (lambda ()
+		      (shell-command (format "cd %s" sync-dir))
+		      (org-sync-git-fetch-rebase sync-dir)
+		      ))
+    )
   )
 
+(sync-emacs-d "~/.emacs.d")
+(sync-emacs-d "~/ws/dev-diary")
 
-(defun org-sync-stop-timer ()
-  "停止定时器"
-  (when org-sync-timer
-    (cancel-timer org-sync-timer)
-    (setq org-sync-timer nil)))
+(defmacro cd-sync-dir (arg)
+  `(format "cd %s && %s" sync-dir ,arg))
 
-(defun org-sync-git-fetch-rebase ()
+(defun org-sync-git-fetch-rebase (sync-dir)
   "执行 git fetch 和 git rebase 操作."
   (interactive)
   (message "GAS: git fetch...")
-  (shell-command "git fetch")
-  (let ((output (shell-command-to-string "git status --porcelain")))
+  (shell-command (cd-sync-dir "git fetch"))
+  (let ((output (shell-command-to-string (cd-sync-dir "git status --porcelain"))))
     (if (string-empty-p output)
         (progn
 	  (message "GAS： 本地无修改，进行rebase操作")
-	  (shell-command "git rebase origin/main"))
+	  (shell-command (cd-sync-dir "git pull --rebase")))
       (progn
-        (message "GAS: 远端有新的修改，合并更新...")
-        (message "执行 git rebase...")
-        (shell-command "git rebase origin/main --autostash")
-        (git-quick-commit)))
+        (message "GAS: 本地有新的修改，合并更新...")
+        (message "GAS: 执行 git rebase...")
+        (shell-command (cd-sync-dir "git pull --rebase --autostash"))
+        (git-quick-commit-dir sync-dir)))
     (message "GAS: 同步完成")
     ))
+
+(defun git-quick-commit-dir (sync-dir)
+  "git commit elpa submodules, with one line message, default title is current timestamp"
+  (shell-command (cd-sync-dir "git add ."))
+  (shell-command (cd-sync-dir (concat "git commit -m \"" (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)) "\"")))
+  (shell-command (cd-sync-dir "git push"))
+  )
 
 ;; git commit current git directory, with optional one line message, default title is current timestamp
 (defun git-quick-commit ()

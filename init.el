@@ -98,6 +98,7 @@
 (load "init-jump")
 (load "init-funcs")
 (load "init-font")
+(load "autosync.el")
 
 
 (use-package company
