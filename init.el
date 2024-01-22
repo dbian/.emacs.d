@@ -91,8 +91,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :background "#2d3743" :foreground "#e1e1e0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 1.1 :width normal :foundry "outline" :family "JetBrains Mono"))))
- '(tab-line ((t (:inherit variable-pitch :background "grey85" :foreground "black" :height 1.1)))))
+ )
 
 ;; load my custom seperate init files
 (load  "completion")
