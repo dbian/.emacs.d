@@ -68,10 +68,10 @@
  '(indicate-empty-lines t)
  '(org-capture-templates
    '(("t" "all kinds of todos" entry
-      (file "~/ws/dev-diary/inbox.org")
+      (file "inbox.org")
       "* TODO %? :: Captured @ %T%^{Effort|2d}p" :prepend t :jump-to-captured t)
      ("c" "new comprehension on things" entry
-      (file "~/ws/dev-diary/comprehension.org")
+      (file "comprehension.org")
       "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(org-display-remote-inline-images 'cache)
