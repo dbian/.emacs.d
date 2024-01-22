@@ -28,7 +28,8 @@
     (message (format "syncing git for %s" sync-dir))
     (setq func (lambda ()
 		 (org-sync-git-fetch-rebase sync-dir)))
-    (run-with-timer 0 300
+    ; every 30m backup
+    (run-with-timer 0 1800
 		    func)
     (add-hook 'kill-emacs-hook func)
     )
