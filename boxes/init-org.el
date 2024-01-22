@@ -41,3 +41,11 @@
 
 ; set agenda folder
 (setq org-agenda-files (if-win-or-else '("D:/dev-diary") '("~/ws/dev-diary")))
+
+(setq org-capture-templates
+       `(("t" "all kinds of todos" entry
+	  (file (concat (car org-agenda-files) "inbox.org"))
+	  "* TODO %? :: Captured @ %T%^{Effort|2d}p" :prepend t :jump-to-captured t)
+	 ("c" "new comprehension on things" entry
+	  (file (concat (car org-agenda-files) "comprehension.org")
+	  "* %? :: added @ %T" :prepend t :jump-to-captured t)))

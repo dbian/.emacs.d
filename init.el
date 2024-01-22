@@ -66,13 +66,6 @@
  '(global-display-line-numbers-mode t)
  '(global-tab-line-mode t)
  '(indicate-empty-lines t)
- '(org-capture-templates
-   '(("t" "all kinds of todos" entry
-      (file "inbox.org")
-      "* TODO %? :: Captured @ %T%^{Effort|2d}p" :prepend t :jump-to-captured t)
-     ("c" "new comprehension on things" entry
-      (file "comprehension.org")
-      "* %? :: added @ %T" :prepend t :jump-to-captured t)))
  '(org-confirm-babel-evaluate nil)
  '(org-display-remote-inline-images 'cache)
  '(org-hide-leading-stars t)
