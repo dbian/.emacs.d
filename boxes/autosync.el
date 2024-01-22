@@ -44,16 +44,15 @@
 	       "~/.emacs.d"))
 (sync-emacs-d (if-win-or-else
 	       "D:/dev-diary"
-	       "~/ws/dev-diary")
- )
+	       "~/ws/dev-diary"))
 
-(defvar system-out-encoding  (cond
-	       ((eq system-type 'windows-nt) 'gbk)
-	       (t 'utf-8)))
+(defvar system-out-encoding  (if-win-or-else
+	       'gbk
+	       'utf-8))
 
-(defvar system-shell-and-oper  (cond
-	       ((eq system-type 'windows-nt) "&")
-	       (t "&&")))
+(defvar system-shell-and-oper  (if-win-or-else
+	       "&"
+	       "&&"))
 
 (defmacro exe-sh-in-dir (arg)
   `(let ((coding-system-for-read system-out-encoding))
