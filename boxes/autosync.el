@@ -34,35 +34,49 @@
     )
   )
 
-(sync-emacs-d "~/.emacs.d")
-(sync-emacs-d "~/ws/dev-diary")
+(sync-emacs-d (cond
+	       ((eq system-type 'windows-nt) "c:/Users/hdbian/AppData/Roaming/.emacs.d")
+	       (t "~/.emacs.d")))
+(sync-emacs-d (cond
+	       ((eq system-type 'windows-nt) "D:/dev-diary")
+	       (t "~/ws/dev-diary"))
+ )
 
-(defmacro cd-sync-dir (arg)
-  `(format "cd %s && %s" sync-dir ,arg))
+(defvar system-out-encoding  (cond
+	       ((eq system-type 'windows-nt) 'gbk)
+	       (t 'utf-8)))
+
+(defvar system-shell-and-oper  (cond
+	       ((eq system-type 'windows-nt) "&")
+	       (t "&&")))
+
+(defmacro exe-sh-in-dir (arg)
+  `(let ((coding-system-for-read system-out-encoding))
+     (shell-command-to-string (format "cd %s %s %s" sync-dir system-shell-and-oper ,arg))))
 
 (defun org-sync-git-fetch-rebase (sync-dir)
   "执行 git fetch 和 git rebase 操作."
   (interactive)
   (message "GAS: git fetch...")
-  (shell-command (cd-sync-dir "git fetch"))
-  (let ((output (shell-command-to-string (cd-sync-dir "git status --porcelain"))))
+  (exe-sh-in-dir "git fetch")
+  (let ((output (exe-sh-in-dir "git status --porcelain")))
     (if (string-empty-p output)
         (progn
 	  (message "GAS： 本地无修改，进行rebase操作")
-	  (shell-command (cd-sync-dir "git pull --rebase")))
+	  (exe-sh-in-dir "git pull --rebase"))
       (progn
         (message "GAS: 本地有新的修改，合并更新...")
         (message "GAS: 执行 git rebase...")
-        (shell-command (cd-sync-dir "git pull --rebase --autostash"))
+        (exe-sh-in-dir "git pull --rebase --autostash")
         (git-quick-commit-dir sync-dir)))
     (message (format "GAS: 同步完成 %s" sync-dir))
     ))
 
 (defun git-quick-commit-dir (sync-dir)
   "git commit elpa submodules, with one line message, default title is current timestamp"
-  (shell-command (cd-sync-dir "git add ."))
-  (shell-command (cd-sync-dir (concat "git commit -m \"" (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)) "\"")))
-  (shell-command (cd-sync-dir "git push"))
+  (exe-sh-in-dir "git add .")
+  (exe-sh-in-dir (concat "git commit -m \"" (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)) "\""))
+  (exe-sh-in-dir "git push")
   )
 
 ;; git commit current git directory, with optional one line message, default title is current timestamp
