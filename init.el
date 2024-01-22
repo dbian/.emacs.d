@@ -66,7 +66,6 @@
  '(global-display-line-numbers-mode t)
  '(global-tab-line-mode t)
  '(indicate-empty-lines t)
- '(org-agenda-files '("~/ws/dev-diary"))
  '(org-capture-templates
    '(("t" "all kinds of todos" entry
       (file "~/ws/dev-diary/inbox.org")
@@ -77,7 +76,7 @@
  '(org-confirm-babel-evaluate nil)
  '(org-display-remote-inline-images 'cache)
  '(package-selected-packages
-   '(org-download embark-consult embark consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(org-modern org-download embark-consult embark consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
    '((sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
      (vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))

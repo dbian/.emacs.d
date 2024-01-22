@@ -32,3 +32,12 @@
 	  ; TODO
           ))
     (message "No active region or not an org table.")))
+
+(use-package org-modern
+  :config
+  (add-hook 'org-mode-hook #'org-modern-mode)
+  (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
+  )
+
+; set agenda folder
+(setq org-agenda-files (if-win-or-else '("D:/dev-diary") '("~/ws/dev-diary")))
