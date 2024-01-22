@@ -23,3 +23,5 @@
   ((eq system-type 'gnu/linux)
    (cond
     ((member "WenQuanYi Micro Hei" (font-family-list)) "WenQuanYi Micro Hei")))))
+
+(set-face-attribute 'default nil :height 110)
