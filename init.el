@@ -66,7 +66,6 @@
  '(global-display-line-numbers-mode t)
  '(global-tab-line-mode t)
  '(indicate-empty-lines t)
- '(org-agenda-files '("~/ws/dev-diary"))
  '(org-capture-templates
    '(("t" "all kinds of todos" entry
       (file "~/ws/dev-diary/inbox.org")
