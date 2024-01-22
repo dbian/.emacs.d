@@ -50,3 +50,4 @@
 	("c" "new comprehension on things" entry
 	 (file ,(concat (car org-my-dir) "/comprehension.org"))
 	 "* %? :: added @ %T" :prepend t :jump-to-captured t)))
+

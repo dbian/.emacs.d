@@ -96,7 +96,8 @@
 (load "init-jump")
 (load "init-funcs")
 (load "init-font")
-(load "autosync.el")
+(load "autosync")
+(load "init-org")
 
 
 (use-package company
