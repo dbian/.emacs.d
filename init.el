@@ -40,7 +40,9 @@
 
 (recentf-mode 1)
 
-(nyan-mode 1)
+(use-package nyan-mode
+  :config
+  (nyan-mode 1))
 
 ;; disable the toolbar
 
