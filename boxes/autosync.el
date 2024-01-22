@@ -34,10 +34,10 @@
     )
   )
 
-(defmacro if-win-or-else win-op other-op
-	  `(cond
-	    ((eq system-type 'windows-nt) win-op)
-	    (t other-op)))
+(defmacro if-win-or-else (win-op other-op)
+	  `(if
+	    (eq system-type 'windows-nt) ,win-op
+	    ,other-op))
 
 (sync-emacs-d (if-win-or-else
 	       "c:/Users/hdbian/AppData/Roaming/.emacs.d"
