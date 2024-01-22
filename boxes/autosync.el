@@ -34,12 +34,17 @@
     )
   )
 
-(sync-emacs-d (cond
-	       ((eq system-type 'windows-nt) "c:/Users/hdbian/AppData/Roaming/.emacs.d")
-	       (t "~/.emacs.d")))
-(sync-emacs-d (cond
-	       ((eq system-type 'windows-nt) "D:/dev-diary")
-	       (t "~/ws/dev-diary"))
+(defmacro if-win-or-else win-op other-op
+	  `(cond
+	    ((eq system-type 'windows-nt) win-op)
+	    (t other-op)))
+
+(sync-emacs-d (if-win-or-else
+	       "c:/Users/hdbian/AppData/Roaming/.emacs.d"
+	       "~/.emacs.d"))
+(sync-emacs-d (if-win-or-else
+	       "D:/dev-diary"
+	       "~/ws/dev-diary")
  )
 
 (defvar system-out-encoding  (cond
