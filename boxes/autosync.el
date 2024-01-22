@@ -54,9 +54,12 @@
 	       "&"
 	       "&&"))
 
+(defvar system-shell-cd-oper  (if-win-or-else
+				"cd /d"
+				"cd"))
 (defmacro exe-sh-in-dir (arg)
   `(let ((coding-system-for-read system-out-encoding))
-     (shell-command-to-string (format "cd %s %s %s" sync-dir system-shell-and-oper ,arg))))
+     (shell-command-to-string (format "%s %s %s %s" system-shell-cd-oper sync-dir system-shell-and-oper ,arg))))
 
 (defun org-sync-git-fetch-rebase (sync-dir)
   "执行 git fetch 和 git rebase 操作."
