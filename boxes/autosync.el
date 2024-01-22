@@ -1,35 +1,14 @@
 ;; -*- lexical-binding: t; -*-
 
-;;; 设定自动git同步的文件夹列表
-(setq auto-git-sync-folder '(".emacs.d" "dev-diary"))
-
-; 定时同步功能，通过钩子启动定时器，先实现手动同步功能
-;; (defun git-sync-folder-once
-;;     "git sync folder on current buffer's vc root"
-  
-;;     )
-
-;;;;; -> backup
-
-(define-minor-mode org-sync-mode-gas
-  "Git Auto Sync Mode."
-  :init-value nil
-  :lighter " GAS"
-  :global nil
-  :group 'OrgSync
-  (if org-sync-mode
-      (org-sync-start-timer)
-    (org-sync-stop-timer)))
-
-
 ; sync .emacs.d once
-(defun sync-emacs-d (sync-dir)
+(defun auto-sync-git-dir (sync-dir start-sec)
+  "自动同步git目录，周期性同步，退出前同步"
   (when (file-directory-p sync-dir)
     (message (format "syncing git for %s" sync-dir))
     (setq func (lambda ()
 		 (org-sync-git-fetch-rebase sync-dir)))
-    ; every 30m backup
-    (run-with-timer 0 1800
+					; every 30m backup
+    (run-with-timer start-sec 1800
 		    func)
     (add-hook 'kill-emacs-hook func)
     )
@@ -40,12 +19,14 @@
 	    (eq system-type 'windows-nt) ,win-op
 	    ,other-op))
 
-(sync-emacs-d (if-win-or-else
+(auto-sync-git-dir (if-win-or-else
 	       "c:/Users/hdbian/AppData/Roaming/.emacs.d"
-	       "~/.emacs.d"))
-(sync-emacs-d (if-win-or-else
+	       "~/.emacs.d")
+	      0)
+(auto-sync-git-dir (if-win-or-else
 	       "D:/dev-diary"
-	       "~/ws/dev-diary"))
+	       "~/ws/dev-diary")
+	      30)
 
 (defvar system-out-encoding  (if-win-or-else
 	       'gbk
