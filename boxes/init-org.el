@@ -23,6 +23,12 @@
   (org-display-inline-images))
 
 (defun copy-region-org-table-as-csv ()
+  "Export the current org table as a CSV and copy it to the clipboard."
   (interactive)
-  
-  )
+  (if (use-region-p)
+      (let ((table-begin (region-beginning))
+            (table-end (region-end)))
+        (when (org-at-table-p table-begin)
+	  ; TODO
+          ))
+    (message "No active region or not an org table.")))
