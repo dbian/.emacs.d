@@ -473,9 +473,9 @@
 
 ;; Restore Opened Files
 ;;desktop-globals-to-save (desktop-missing-file-warning tags-file-name tags-table-list search-ring regexp-search-ring register-alist file-name-history)
-(progn
-  (desktop-save-mode 1)
-  (setq desktop-globals-to-save '(register-alist))
+;; (progn
+;;   (desktop-save-mode 1)
+;;   (setq desktop-globals-to-save '(register-alist))
   ;;   ;; save when quit
   ;; (setq desktop-save t)
 
@@ -499,7 +499,7 @@
   ;; (add-to-list 'desktop-globals-to-save 'register-alist)
   ;;   ;; 2023-09-16 default
   ;;   ;; '(desktop-missing-file-warning tags-file-name tags-table-list search-ring regexp-search-ring register-alist file-name-history)
-  )
+  ;; )
 
 (when (eq window-system 'w32)
   (setq tramp-default-method "plink")
