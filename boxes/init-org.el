@@ -45,10 +45,10 @@
 
 (setq org-capture-templates
       `(("t" "all kinds of todos" entry
-	 (file ,(concat (car org-my-dir) "/inbox.org"))
+	 (file ,(concat org-my-dir "/inbox.org"))
 	 "* TODO %? :: Captured @ %T%^{Effort|2d}p" :prepend t :jump-to-captured t)
 	("c" "new comprehension on things" entry
-	 (file ,(concat (car org-my-dir) "/comprehension.org"))
+	 (file ,(concat org-my-dir "/comprehension.org"))
 	 "* %? :: added @ %T" :prepend t :jump-to-captured t)))
 
 
