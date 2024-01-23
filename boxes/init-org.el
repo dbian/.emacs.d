@@ -39,9 +39,9 @@
   (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
   )
 
-(defvar org-my-dir (if-win-or-else '("D:/dev-diary") '("~/ws/dev-diary")))
+(defvar org-my-dir (if-win-or-else "D:/dev-diary" "~/ws/dev-diary"))
 ; set agenda folder
-(org-agenda-files org-my-dir)
+(setq org-agenda-files (directory-files-recursively org-my-dir "\\.org$"))
 
 (setq org-capture-templates
       `(("t" "all kinds of todos" entry
@@ -51,3 +51,22 @@
 	 (file ,(concat (car org-my-dir) "/comprehension.org"))
 	 "* %? :: added @ %T" :prepend t :jump-to-captured t)))
 
+
+;; ;; org mode
+;; (global-set-key (kbd "C-c a") #'org-agenda)
+;; (global-set-key (kbd "C-c c") #'org-capture)
+;; (global-set-key (kbd "C-c b") #'org-switchb)
+
+(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+;; (setq org-directory "~/ws/dev-diary")
+
+
+(defun add-schedule-to-new-todo ()
+  "Function to add schedule timestamp to new todo."  
+    (when (equal org-state "TODO")
+       (org-schedule nil (with-temp-buffer (org-time-stamp '(16)) (buffer-string)))))
+
+(add-hook 'org-after-todo-state-change-hook 'add-schedule-to-new-todo)
+
+
+(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode -1)))

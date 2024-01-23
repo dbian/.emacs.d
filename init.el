@@ -436,13 +436,7 @@
 ;; (bind-key "C-c C-p" 'git-quick-pull)
 
 
-;; ;; org mode
-;; (global-set-key (kbd "C-c a") #'org-agenda)
-;; (global-set-key (kbd "C-c c") #'org-capture)
-;; (global-set-key (kbd "C-c b") #'org-switchb)
-;; (global-set-key (kbd "<f12>") #'eshell)
-;; (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
-;; (setq org-directory "~/ws/dev-diary")
+
 
 
 
