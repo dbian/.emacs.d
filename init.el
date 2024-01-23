@@ -75,7 +75,7 @@
  '(org-display-remote-inline-images 'cache)
  '(org-hide-leading-stars t)
  '(package-selected-packages
-   '(doom-modeline powerline jupyter burly burly.el nyan-mode hackernews org-modern org-download embark-consult embark consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(all-the-icons-nerd-fonts nerd-icons-completion nerd-icons-dired doom-modeline jupyter burly burly.el nyan-mode hackernews org-modern org-download embark-consult embark consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
    '((burly.el :vc-backend Git :url "https://github.com/alphapapa/burly.el.git")
      (sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
@@ -498,3 +498,8 @@
 (when (eq window-system 'w32)
   (setq tramp-default-method "plink")
   )
+
+;; modeline beauty
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode))
