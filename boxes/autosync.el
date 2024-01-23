@@ -1,18 +1,20 @@
 ;; -*- lexical-binding: t; -*-
 
-; sync .emacs.d once
+
+(defmacro gas-log (m)
+  `(message (format "GAS[%s]: %s" sync-dir ,m))
+  )
+					; sync .emacs.d once
 (defun auto-sync-git-dir (sync-dir start-sec)
   "自动同步git目录，周期性同步，退出前同步
 on-exit-no-fetch: 退出时仅检查本地有无提交
 "
   (when (file-directory-p sync-dir)
-    (message (format "syncing git for %s" sync-dir))
-    (setq func (lambda (async on-exit)
-		 (org-sync-git-fetch-rebase sync-dir async on-exit)))
+    (gas-log "syncing")
 					; every 30m backup
     (run-with-timer start-sec 1800
-		    func)
-    (add-hook 'kill-emacs-hook func)
+		    (lambda () (org-sync-git-fetch-rebase sync-dir t nil)))
+    (add-hook 'kill-emacs-hook (lambda () (org-sync-git-fetch-rebase sync-dir nil t)))
     )
   )
 
@@ -21,14 +23,7 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
 	    (eq system-type 'windows-nt) ,win-op
 	    ,other-op))
 
-(auto-sync-git-dir (if-win-or-else
-	       "c:/Users/hdbian/AppData/Roaming/.emacs.d"
-	       "~/.emacs.d")
-	      0)
-(auto-sync-git-dir (if-win-or-else
-	       "D:/dev-diary"
-	       "~/ws/dev-diary")
-	      30)
+
 
 (defvar system-out-encoding  (if-win-or-else
 	       'gbk
@@ -45,9 +40,6 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
   `(let ((coding-system-for-read system-out-encoding))
      (shell-command-to-string (format "%s %s %s %s" system-shell-cd-oper sync-dir system-shell-and-oper ,arg))))
 
-(defmacro gas-log (m)
-  `(message (format "GAS[%s]: %s" sync-dir ,m))
-  )
 
 (defun org-sync-git-fetch-rebase (sync-dir async on-exit-no-fetch)
   "执行 git fetch 和 git rebase 操作."
@@ -91,3 +83,12 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
   (interactive)
   (async-shell-command "git pull --autostash --rebase")
   )
+
+(auto-sync-git-dir (if-win-or-else
+	       "c:/Users/hdbian/AppData/Roaming/.emacs.d"
+	       "~/.emacs.d")
+	      0)
+(auto-sync-git-dir (if-win-or-else
+	       "D:/dev-diary"
+	       "~/ws/dev-diary")
+	      30)
