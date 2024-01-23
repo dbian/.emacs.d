@@ -2,11 +2,13 @@
 
 ; sync .emacs.d once
 (defun auto-sync-git-dir (sync-dir start-sec)
-  "自动同步git目录，周期性同步，退出前同步"
+  "自动同步git目录，周期性同步，退出前同步
+on-exit-no-fetch: 退出时仅检查本地有无提交
+"
   (when (file-directory-p sync-dir)
     (message (format "syncing git for %s" sync-dir))
-    (setq func (lambda ()
-		 (org-sync-git-fetch-rebase sync-dir)))
+    (setq func (lambda (async on-exit)
+		 (org-sync-git-fetch-rebase sync-dir async on-exit)))
 					; every 30m backup
     (run-with-timer start-sec 1800
 		    func)
@@ -43,22 +45,29 @@
   `(let ((coding-system-for-read system-out-encoding))
      (shell-command-to-string (format "%s %s %s %s" system-shell-cd-oper sync-dir system-shell-and-oper ,arg))))
 
-(defun org-sync-git-fetch-rebase (sync-dir)
+(defmacro gas-log (m)
+  `(message (format "GAS[%s]: %s" sync-dir ,m))
+  )
+
+(defun org-sync-git-fetch-rebase (sync-dir async on-exit-no-fetch)
   "执行 git fetch 和 git rebase 操作."
   (interactive)
-  (message "GAS: git fetch...")
-  (exe-sh-in-dir "git fetch")
+  ;; (message (format "GAS: git fetch... %s" sync-dir))
+  ;; (when (not on-exit-no-fetch)
+  ;;   (exe-sh-in-dir "git fetch"))
   (let ((output (exe-sh-in-dir "git status --porcelain")))
     (if (string-empty-p output)
-        (progn
-	  (message "GAS： 本地无修改，进行rebase操作")
-	  (exe-sh-in-dir "git pull --rebase"))
+        (if on-exit-no-fetch
+	    (gas-log "exit directly")
+	  (progn
+	    (gas-log "本地无修改，进行rebase操作")
+	    (exe-sh-in-dir "git pull --rebase")))
       (progn
-        (message "GAS: 本地有新的修改，合并更新...")
-        (message "GAS: 执行 git rebase...")
+        (gas-log "本地有新的修改，合并更新...")
+        (gas-log "执行 git rebase...")
         (exe-sh-in-dir "git pull --rebase --autostash")
         (git-quick-commit-dir sync-dir)))
-    (message (format "GAS: 同步完成 %s" sync-dir))
+    (gas-log "同步完成")
     ))
 
 (defun git-quick-commit-dir (sync-dir)
