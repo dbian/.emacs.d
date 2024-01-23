@@ -472,32 +472,34 @@
     (insert new-text)))
 
 ;; Restore Opened Files
-;; (progn
-;;   (desktop-save-mode 1)
-;;   ;; save when quit
-;;   (setq desktop-save t)
+;;desktop-globals-to-save (desktop-missing-file-warning tags-file-name tags-table-list search-ring regexp-search-ring register-alist file-name-history)
+(progn
+  (desktop-save-mode 1)
+  (setq desktop-globals-to-save '(register-alist))
+  ;;   ;; save when quit
+  ;; (setq desktop-save t)
 
-;;   ;; no ask if crashed
-;;   (setq desktop-load-locked-desktop t)
+  ;;   ;; no ask if crashed
+  ;;   (setq desktop-load-locked-desktop t)
 
-;;   (setq desktop-restore-frames nil)
+  ;;   (setq desktop-restore-frames nil)
 
-;;   (setq desktop-auto-save-timeout 300)
-;;   (setq desktop-buffers-not-to-save
-;;        (concat "\\("
-;;                "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-;;                "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
-;; 	       "\\|*scratch*"
-;;                "\\)$"))
-;;   (add-to-list 'desktop-modes-not-to-save 'dired-mode)
-;;   (add-to-list 'desktop-modes-not-to-save 'Info-mode)
-;;   (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-;;   (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-;;   ;; save some global vars
-;;   (add-to-list 'desktop-globals-to-save 'register-alist)
-;;   ;; 2023-09-16 default
-;;   ;; '(desktop-missing-file-warning tags-file-name tags-table-list search-ring regexp-search-ring register-alist file-name-history)
-;;   )
+  ;;   (setq desktop-auto-save-timeout 300)
+  ;;   (setq desktop-buffers-not-to-save
+  ;;        (concat "\\("
+  ;;                "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+  ;;                "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+  ;; 	       "\\|*scratch*"
+  ;;                "\\)$"))
+  ;;   (add-to-list 'desktop-modes-not-to-save 'dired-mode)
+  ;;   (add-to-list 'desktop-modes-not-to-save 'Info-mode)
+  ;;   (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+  ;;   (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+  ;;   ;; save some global vars
+  ;; (add-to-list 'desktop-globals-to-save 'register-alist)
+  ;;   ;; 2023-09-16 default
+  ;;   ;; '(desktop-missing-file-warning tags-file-name tags-table-list search-ring regexp-search-ring register-alist file-name-history)
+  )
 
 (when (eq window-system 'w32)
   (setq tramp-default-method "plink")
