@@ -14,6 +14,8 @@
 
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
   ;; (setq vertico-cycle t)
+  :config
+  (vertico-grid-mode)
   )
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
@@ -191,4 +193,3 @@
   ;;;; 5. No project support
   ;; (setq consult-project-function nil)
 )
-
