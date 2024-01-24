@@ -40,9 +40,9 @@
 
 (recentf-mode 1)
 
-(use-package nyan-mode
-  :config
-  (nyan-mode 1))
+;; (use-package nyan-mode
+;;   :config
+;;   (nyan-mode 1))
 
 ;; disable the toolbar
 
@@ -503,3 +503,4 @@
 (use-package doom-modeline
   :ensure t
   :hook (after-init . doom-modeline-mode))
+(setq doom-modeline-icon nil)
