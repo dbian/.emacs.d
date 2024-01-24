@@ -102,6 +102,7 @@
 (load "init-font")
 (load "autosync")
 (load "init-org")
+(load "init-tabline")
 
 (use-package company
   :config (global-company-mode))
