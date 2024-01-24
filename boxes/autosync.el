@@ -2,7 +2,7 @@
 
 
 (defmacro gas-log (m)
-  `(message (format "GAS[%s]: %s" sync-dir ,m))
+  `(message (format "GAS[%s][%s]: %s" sync-dir (current-time-string) ,m))
   )
 					; sync .emacs.d once
 (defun auto-sync-git-dir (sync-dir start-sec)
