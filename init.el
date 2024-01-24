@@ -101,8 +101,6 @@
 (load "autosync")
 (load "init-org")
 
-(use-package burly)
-
 (use-package company
   :config (global-company-mode))
 
