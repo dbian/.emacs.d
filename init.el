@@ -90,9 +90,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(tab-line ((t (:inherit variable-pitch :background "slate gray" :foreground "dark slate gray" :weight normal :height 1.1))))
+ '(tab-line ((t (:inherit variable-pitch :background "slate gray" :foreground "light gray" :weight normal))))
  '(tab-line-highlight ((t (:background "firebrick" :foreground "white" :box (:line-width (1 . 1) :style released-button)))))
- '(tab-line-tab-current ((t (:inherit tab-line-tab :background "navy" :foreground "white")))))
+ '(tab-line-tab ((t (:inherit tab-line :box (:line-width (5 . 5) :style released-button)))))
+ '(tab-line-tab-current ((t (:inherit tab-line-tab :background "navy" :foreground "white"))))
+ '(tab-line-tab-inactive ((t (:inherit tab-line-tab :background "grey75" :foreground "gray"))))
+ '(tab-line-tab-special ((t (:slant italic :weight bold)))))
 
 ;; load my custom seperate init files
 (load  "completion")
