@@ -28,3 +28,7 @@ Lastly, if no tabs are left in the window, it is deleted with the `delete-window
                (unless (cdr tab-list)
                  (ignore-errors (delete-window window)))))))
     (force-mode-line-update)))
+
+(setq tab-line-separator "")
+
+(setq tab-line-new-button-show nil)

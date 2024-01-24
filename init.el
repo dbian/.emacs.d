@@ -117,7 +117,10 @@
 
 (use-package golden-ratio
   :config
-  (golden-ratio-mode 1))
+  (golden-ratio-mode 1)
+  (setq golden-ratio-adjust-factor .8
+      golden-ratio-wide-adjust-factor .8)
+  )
 
 (use-package olivetti
   :config (add-hook 'text-mode-hook 'olivetti-mode))
