@@ -25,3 +25,4 @@ bookmarks
 /.eask/
 /.emacs.desktop
 *.lock
+/.cache/
