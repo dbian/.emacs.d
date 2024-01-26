@@ -122,6 +122,10 @@
   :config
   (golden-ratio-mode 1)
   (golden-ratio-toggle-widescreen)
+<<<<<<< HEAD
+=======
+  :init
+>>>>>>> 2217fd0 (2024-01-25 20:34:11)
   (setq golden-ratio-adjust-factor .8
 	golden-ratio-wide-adjust-factor .8)
   )
