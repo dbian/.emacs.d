@@ -1,4 +1,29 @@
+;; -*- lexical-binding: t; -*-
 
+
+;; 修改agenda的标题
+(defun org-agenda-format-date-aligned (date)
+  (require 'cal-iso)
+  (let* ((dayname (calendar-day-name date))
+         (day (cadr date))
+         (day-of-week (calendar-day-of-week date))
+         (month (car date))
+         (monthname (calendar-month-name month))
+         (year (nth 2 date))
+         (iso-week (org-days-to-iso-week
+                    (calendar-absolute-from-gregorian date)))
+         (weekyear (cond ((and (= month 1) (>= iso-week 52))
+                          (1- year))
+                         ((and (= month 12) (<= iso-week 1))
+                          (1+ year))
+                         (t year)))
+         (weekstring (if (= day-of-week 1)
+                         (format "全年第%02d周" iso-week)
+                       "")))
+    (format "%-10s %4d-%02d-%2d %s"
+            dayname year month day weekstring))
+
+  )
 
 (use-package org-download
   :config
