@@ -516,3 +516,10 @@
   :ensure t
   :hook (after-init . doom-modeline-mode))
 (setq doom-modeline-icon nil)
+
+
+;; (if
+;;     (eq system-type 'gnu/linux)
+;;     (use-package rime
+;;       :custom
+;;       (default-input-method "rime")))
