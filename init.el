@@ -71,6 +71,8 @@
  '(global-display-line-numbers-mode t)
  '(global-tab-line-mode t)
  '(indicate-empty-lines t)
+ '(org-agenda-files
+   '("/Users/zqq/ws/dev-diary/cupd/cupd-24.org" "/Users/zqq/ws/dev-diary/cupd/cupd.org" "/Users/zqq/ws/dev-diary/cupd/wifi.org" "/Users/zqq/ws/dev-diary/comprehension.org" "/Users/zqq/ws/dev-diary/emacs.org" "/Users/zqq/ws/dev-diary/home.org" "/Users/zqq/ws/dev-diary/inbox.org" "/Users/zqq/ws/dev-diary/llm.org" "/Users/zqq/ws/dev-diary/mind-blowing-at-24.org" "/Users/zqq/ws/dev-diary/quant.org" "/Users/zqq/ws/dev-diary/vault.org" "/Users/zqq/ws/dev-diary/笔记系统.org"))
  '(org-confirm-babel-evaluate nil)
  '(org-display-remote-inline-images 'cache)
  '(org-hide-leading-stars t)
