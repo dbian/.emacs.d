@@ -94,4 +94,4 @@
 (add-hook 'org-after-todo-state-change-hook 'add-schedule-to-new-todo)
 
 
-(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode -1)))
+(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode nil)))
