@@ -70,6 +70,7 @@
  '(global-auto-revert-mode t)
  '(global-display-line-numbers-mode t)
  '(global-tab-line-mode t)
+ '(global-undo-tree-mode t)
  '(indicate-empty-lines t)
  '(org-confirm-babel-evaluate nil)
  '(org-display-remote-inline-images 'cache)
@@ -84,7 +85,10 @@
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
  '(tab-bar-history-mode t)
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(undo-tree-enable-undo-in-region t)
+ '(undo-tree-visualizer-diff t)
+ '(undo-tree-visualizer-timestamps t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
