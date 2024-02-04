@@ -1,8 +1,11 @@
 ;; -*- lexical-binding: t; -*-
 
 
-(defmacro gas-log (m)
-  `(message (format "GAS[%s][%s]: %s" sync-dir (current-time-string) ,m))
+(defmacro gas-log (m &optional desktop)
+  `(let ((msg (format "GAS[%s][%s]: %s" sync-dir (current-time-string) ,m)))
+    (if desktop
+	(alert-toast-notify '(:title "自动同步系统" :message msg :data (:long t)))
+	(message msg)))
   )
 					; sync .emacs.d once
 (defun auto-sync-git-dir (sync-dir start-sec)
@@ -55,11 +58,11 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
 	    (gas-log "本地无修改，进行rebase操作")
 	    (exe-sh-in-dir "git pull --rebase")))
       (progn
-        (gas-log "本地有新的修改，合并更新...")
+        (gas-log "本地有新的修改，合并更新..." t)
         (gas-log "执行 git rebase...")
         (exe-sh-in-dir "git pull --rebase --autostash")
         (git-quick-commit-dir sync-dir)))
-    (gas-log "同步完成")
+    (gas-log "同步完成" t)
     ))
 
 (defun git-quick-commit-dir (sync-dir)
