@@ -3,8 +3,8 @@
 
 (defmacro gas-log (m &optional desktop)
   `(let ((msg (format "GAS[%s][%s]: %s" sync-dir (current-time-string) ,m)))
-    (if desktop
-	(alert-toast-notify '(:title "自动同步系统" :message msg :data (:long t)))
+    (if ,desktop
+	(alert-toast-notify `(:title "自动同步系统" :message ,msg :data (:long t)))
 	(message msg)))
   )
 					; sync .emacs.d once
@@ -55,7 +55,7 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
         (if on-exit-no-fetch
 	    (gas-log "exit directly")
 	  (progn
-	    (gas-log "本地无修改，进行rebase操作")
+	    (gas-log "本地无修改，进行rebase操作" t)
 	    (exe-sh-in-dir "git pull --rebase")))
       (progn
         (gas-log "本地有新的修改，合并更新..." t)
