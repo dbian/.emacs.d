@@ -65,7 +65,7 @@
  '(current-language-environment "UTF-8")
  '(custom-enabled-themes '(misterioso))
  '(custom-safe-themes
-   '("efcecf09905ff85a7c80025551c657299a4d18c5fcfedd3b2f2b6287e4edd659" "fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307" "3e200d49451ec4b8baa068c989e7fba2a97646091fd555eca0ee5a1386d56077" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "833ddce3314a4e28411edf3c6efde468f6f2616fc31e17a62587d6a9255f4633" "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36" "4c56af497ddf0e30f65a7232a8ee21b3d62a8c332c6b268c81e9ea99b11da0d3" default))
+   '("a1c18db2838b593fba371cb2623abd8f7644a7811ac53c6530eebdf8b9a25a8d" "efcecf09905ff85a7c80025551c657299a4d18c5fcfedd3b2f2b6287e4edd659" "fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307" "3e200d49451ec4b8baa068c989e7fba2a97646091fd555eca0ee5a1386d56077" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "833ddce3314a4e28411edf3c6efde468f6f2616fc31e17a62587d6a9255f4633" "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36" "4c56af497ddf0e30f65a7232a8ee21b3d62a8c332c6b268c81e9ea99b11da0d3" default))
  '(fringe-mode 0 nil (fringe))
  '(global-auto-revert-mode t)
  '(global-display-line-numbers-mode t)
@@ -76,7 +76,7 @@
  '(org-display-remote-inline-images 'cache)
  '(org-hide-leading-stars t)
  '(package-selected-packages
-   '(alert-toast alert undo-tree hl-block-mode rainbow-delimiters vc-use-package ein jupyter golden-ratio doom-modeline hackernews org-modern org-download consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(cyberpunk-theme alert-toast alert undo-tree hl-block-mode rainbow-delimiters vc-use-package ein jupyter golden-ratio doom-modeline hackernews org-modern org-download consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
    '((burly.el :vc-backend Git :url "https://github.com/alphapapa/burly.el.git")
      (sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
