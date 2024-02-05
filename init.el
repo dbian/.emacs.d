@@ -72,6 +72,7 @@
  '(global-tab-line-mode t)
  '(global-undo-tree-mode t)
  '(indicate-empty-lines t)
+ '(olivetti-minimum-body-width 90)
  '(org-confirm-babel-evaluate nil)
  '(org-display-remote-inline-images 'cache)
  '(org-hide-leading-stars t)
