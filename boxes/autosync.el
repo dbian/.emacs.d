@@ -61,8 +61,8 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
         (gas-log "本地有新的修改，合并更新...")
         (gas-log "执行 git rebase...")
         (exe-sh-in-dir "git pull --rebase --autostash")
-        (git-quick-commit-dir sync-dir)))
-    (gas-log "同步完成" t)
+        (git-quick-commit-dir sync-dir)
+	(gas-log "同步完成" t)))
     ))
 
 (defun git-quick-commit-dir (sync-dir)
