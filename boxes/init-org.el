@@ -94,7 +94,3 @@
 (add-hook 'org-after-todo-state-change-hook 'add-schedule-to-new-todo)
 
 
-(add-hook 'org-mode-hook (lambda ()
-			   (message "disable line number for org file")
-			   (setq display-line-numbers nil)
-			   ))
