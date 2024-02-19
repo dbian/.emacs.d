@@ -39,5 +39,5 @@
 
 ;; 你好，世界
 ;; abcdefgh
-(max/set-font "JetBrains Mono" "Microsoft YaHei" 14 1.5)
+(max/set-font "JetBrains Mono" "Microsoft YaHei" 14 1.5);; todo, 有效的只是下面这段代码，这里的1.5没有效果，有空整改一下
 (setq face-font-rescale-alist '(("微软雅黑" . 1.2) ("Microsoft Yahei" . 1.2) ("WenQuanYi Zen Hei" . 1.2)))
