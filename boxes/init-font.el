@@ -24,7 +24,7 @@
    (cond
     ((member "WenQuanYi Micro Hei" (font-family-list)) "WenQuanYi Micro Hei")))))
 
-(set-face-attribute 'default nil :height 110)
+;; (set-face-attribute 'default nil :height 110)
 
 (defun max/set-font (FONT-NAME CN-FONT-NAME &optional INITIAL-SIZE CN-FONT-RESCALE-RATIO)
   "Set different font-family for Latin and Chinese charactors."
@@ -37,5 +37,7 @@
       (set-fontset-font t charset cn))
     (setq face-font-rescale-alist (if (/= ratio 0.0) `((,CN-FONT-NAME . ,ratio)) nil))))
 
-(max/set-font "JetBrains Mono" "Microsoft YaHei" 14 2.3)
+;; 你好，世界
+;; abcdefgh
+(max/set-font "JetBrains Mono" "Microsoft YaHei" 14 1.1)
 
