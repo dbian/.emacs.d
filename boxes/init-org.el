@@ -93,4 +93,5 @@
 
 (add-hook 'org-after-todo-state-change-hook 'add-schedule-to-new-todo)
 
+(add-to-list 'global-mode-string '(" " (:eval (format "%d" 2345))) " ")
 
