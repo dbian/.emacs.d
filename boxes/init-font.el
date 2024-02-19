@@ -39,5 +39,5 @@
 
 ;; 你好，世界
 ;; abcdefgh
-(max/set-font "JetBrains Mono" "Microsoft YaHei" 14 1.1)
+(max/set-font "JetBrains Mono" "Microsoft YaHei" 14 1.3)
 
