@@ -19,13 +19,14 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
 					; every 30m backup
     (run-with-timer start-sec 60
 		    (lambda ()
-		      (if (> remain-update-time 0)
-			  (progn
-			    (set remain-update-time (1- remain-update-time))
-			    (force-mode-line-update))
+		      (let ((time-value (symbol-value remain-update-time)))
+			(if (> time-value 0)
+			    (progn
+			      (set remain-update-time (1- time-value))
+			      (force-mode-line-update))
 			  (progn
 			    (set remain-update-time 30)
-			    (org-sync-git-fetch-rebase sync-dir t nil)))))
+			    (org-sync-git-fetch-rebase sync-dir t nil))))))
     (add-hook 'kill-emacs-hook (lambda () (org-sync-git-fetch-rebase sync-dir nil t)))
     )
   )
