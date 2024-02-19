@@ -21,10 +21,10 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
 		    (lambda ()
 		      (if (> remain-update-time 0)
 			  (progn
-			    (setq remain-update-time (1- remain-update-time))
+			    (set remain-update-time (1- remain-update-time))
 			    (force-mode-line-update))
 			  (progn
-			    (setq remain-update-time 30)
+			    (set remain-update-time 30)
 			    (org-sync-git-fetch-rebase sync-dir t nil)))))
     (add-hook 'kill-emacs-hook (lambda () (org-sync-git-fetch-rebase sync-dir nil t)))
     )
@@ -103,13 +103,14 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
 (auto-sync-git-dir (if-win-or-else
 	       "D:/dev-diary"
 	       "~/ws/dev-diary")
-	      30 next-sync-time-diary)
+	      120 next-sync-time-diary)
 
 ;; mode line status
 
 (defun calculate-modeline-status ()
   ;; 将进度同步的倒计时显示到modeline上，怎么显示。可以显示两个倒计时，每个都显示即将更新的分钟数(Cfg 23, Diary 21)，每分钟刷新一次
   (format "(Cfg %d, Diary %d)" next-sync-time-cfg next-sync-time-diary)
+  ;; (message (format "updating %d" next-sync-time-cfg))
   )
 
 (add-to-list 'global-mode-string '(" " (:eval (calculate-modeline-status))) " ")
