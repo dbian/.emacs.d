@@ -95,3 +95,13 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
 	       "D:/dev-diary"
 	       "~/ws/dev-diary")
 	      30)
+
+;; mode line status
+
+(defun calculate-modeline-status ()
+  ;; 将进度同步的倒计时显示到modeline上，怎么显示。可以显示两个倒计时，每个都显示即将更新的分钟数(Cfg 23, Diary 21)，每分钟刷新一次
+  
+  )
+
+(add-to-list 'global-mode-string '(" " (:eval (calculate-modeline-status))) " ")
+
