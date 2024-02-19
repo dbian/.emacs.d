@@ -40,4 +40,4 @@
 ;; 你好，世界
 ;; abcdefgh
 (max/set-font "JetBrains Mono" "Microsoft YaHei" 14 1.5)
-
+(setq face-font-rescale-alist '(("微软雅黑" . 1.2) ("Microsoft Yahei" . 1.2) ("WenQuanYi Zen Hei" . 1.2)))
