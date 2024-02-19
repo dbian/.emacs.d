@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
-(defvar next-sync-time-cfg 30)
-(defvar next-sync-time-diary 30)
+(defvar next-sync-time-cfg 0)
+(defvar next-sync-time-diary 2)
 
 (defmacro gas-log (m &optional desktop)
   `(let ((msg (format "GAS[%s][%s]: %s" sync-dir (current-time-string) ,m)))
@@ -10,14 +10,14 @@
        (message msg)))
   )
 					; sync .emacs.d once
-(defun auto-sync-git-dir (sync-dir start-sec remain-update-time)
+(defun auto-sync-git-dir (sync-dir remain-update-time)
   "自动同步git目录，周期性同步，退出前同步
 on-exit-no-fetch: 退出时仅检查本地有无提交
 "
   (when (file-directory-p sync-dir)
     (gas-log "syncing")
 					; every 30m backup
-    (run-with-timer start-sec 60
+    (run-with-timer (* 60 (symbol-value remain-update-time)) 60
 		    (lambda ()
 		      (let ((time-value (symbol-value remain-update-time)))
 			(if (> time-value 0)
@@ -100,11 +100,11 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
 (auto-sync-git-dir (if-win-or-else
 	       "c:/Users/hdbian/AppData/Roaming/.emacs.d"
 	       "~/.emacs.d")
-	      0 'next-sync-time-cfg)
+	      'next-sync-time-cfg)
 (auto-sync-git-dir (if-win-or-else
 	       "D:/dev-diary"
 	       "~/ws/dev-diary")
-	      120 'next-sync-time-diary)
+	      'next-sync-time-diary)
 
 ;; mode line status
 
