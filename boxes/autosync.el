@@ -1,22 +1,31 @@
 ;; -*- lexical-binding: t; -*-
 
+(defvar next-sync-time-cfg 30)
+(defvar next-sync-time-diary 30)
 
 (defmacro gas-log (m &optional desktop)
   `(let ((msg (format "GAS[%s][%s]: %s" sync-dir (current-time-string) ,m)))
-    (if ,desktop
-	(alert-toast-notify `(:title "自动同步系统" :message ,msg :data (:long t)))
-	(message msg)))
+     (if ,desktop
+	 (alert-toast-notify `(:title "自动同步系统" :message ,msg :data (:long t)))
+       (message msg)))
   )
 					; sync .emacs.d once
-(defun auto-sync-git-dir (sync-dir start-sec)
+(defun auto-sync-git-dir (sync-dir start-sec remain-update-time)
   "自动同步git目录，周期性同步，退出前同步
 on-exit-no-fetch: 退出时仅检查本地有无提交
 "
   (when (file-directory-p sync-dir)
     (gas-log "syncing")
 					; every 30m backup
-    (run-with-timer start-sec 1800
-		    (lambda () (org-sync-git-fetch-rebase sync-dir t nil)))
+    (run-with-timer start-sec 60
+		    (lambda ()
+		      (if (> remain-update-time 0)
+			  (progn
+			    (setq remain-update-time (1- remain-update-time))
+			    (force-mode-line-update))
+			  (progn
+			    (setq remain-update-time 30)
+			    (org-sync-git-fetch-rebase sync-dir t nil)))))
     (add-hook 'kill-emacs-hook (lambda () (org-sync-git-fetch-rebase sync-dir nil t)))
     )
   )
@@ -90,17 +99,17 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
 (auto-sync-git-dir (if-win-or-else
 	       "c:/Users/hdbian/AppData/Roaming/.emacs.d"
 	       "~/.emacs.d")
-	      0)
+	      0 'next-sync-time-cfg)
 (auto-sync-git-dir (if-win-or-else
 	       "D:/dev-diary"
 	       "~/ws/dev-diary")
-	      30)
+	      30 'next-sync-time-diary)
 
 ;; mode line status
 
 (defun calculate-modeline-status ()
   ;; 将进度同步的倒计时显示到modeline上，怎么显示。可以显示两个倒计时，每个都显示即将更新的分钟数(Cfg 23, Diary 21)，每分钟刷新一次
-  
+  (format "(Cfg %d, Diary %d)" next-sync-time-cfg next-sync-time-diary)
   )
 
 (add-to-list 'global-mode-string '(" " (:eval (calculate-modeline-status))) " ")
