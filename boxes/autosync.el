@@ -99,11 +99,11 @@ on-exit-no-fetch: 退出时仅检查本地有无提交
 (auto-sync-git-dir (if-win-or-else
 	       "c:/Users/hdbian/AppData/Roaming/.emacs.d"
 	       "~/.emacs.d")
-	      0 next-sync-time-cfg)
+	      0 'next-sync-time-cfg)
 (auto-sync-git-dir (if-win-or-else
 	       "D:/dev-diary"
 	       "~/ws/dev-diary")
-	      120 next-sync-time-diary)
+	      120 'next-sync-time-diary)
 
 ;; mode line status
 
