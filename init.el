@@ -68,7 +68,7 @@
  '(global-undo-tree-mode t)
  '(indicate-empty-lines t)
  '(menu-bar-mode nil)
- '(olivetti-minimum-body-width 90)
+ '(olivetti-minimum-body-width 180)
  '(org-confirm-babel-evaluate nil)
  '(org-display-remote-inline-images 'cache)
  '(org-hide-leading-stars t)
@@ -505,7 +505,7 @@
   :ensure t
   :hook (after-init . doom-modeline-mode))
 (setq doom-modeline-icon nil)
-
+(setq doom-modeline-minor-modes t)
 
 ;; (if
 ;;     (eq system-type 'gnu/linux)
