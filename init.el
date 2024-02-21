@@ -501,11 +501,11 @@
   )
 
 ;; modeline beauty
-(use-package doom-modeline
-  :ensure t
-  :hook (after-init . doom-modeline-mode))
-(setq doom-modeline-icon nil)
-(setq doom-modeline-minor-modes t)
+;; (use-package doom-modeline
+;;   :ensure t
+;;   :hook (after-init . doom-modeline-mode))
+;; (setq doom-modeline-icon nil)
+;; (setq doom-modeline-minor-modes t)
 
 ;; (if
 ;;     (eq system-type 'gnu/linux)
