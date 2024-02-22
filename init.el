@@ -295,6 +295,7 @@
       ;; 	:config
       ;; 	(add-hook 'prog-mode-hook #'eldoc-box-hover-at-point-mode t)
       ;; 	))
+      )
   (progn
     (message "terminal mode will fallback eldoc ui to original")
     ;; (use-package sideline
@@ -324,34 +325,7 @@
 
 
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-;; (add-hook 'prog-mode-hook #'hl-line-mode)
 
-;; (mapc (lambda (mode)
-;; 	(add-hook 'prog-mode-hook mode))
-;;       '(rainbow-delimiters-mode
-;; 	show-paren-mode
-;; 	company-mode
-;; 	))
-
-;; (add-hook 'scheme-mode-hook  #'geiser-mode)
-
-;; (mapc (lambda (mode)
-;; 	(add-hook mode 'company-mode))
-;;       '(prog-mode-hook
-;; 	conf-mode-hook
-;; 	text-mode-hook
-;; 	org-mode-hook))
-;; (mapc (lambda (mode)
-;; 	(add-hook mode 'paredit-mode))
-;;       '(prog-mode-hook
-;; 	conf-mode-hook
-;; 	emacslisp-mode-hook
-;; 	lisp-mode-hook
-;; 	scheme-mode-hook
-;; 	))
-
-;; (when (memq window-system '(mac ns x))
-;;   (exec-path-from-shell-initialize))
 
 (use-package which-key
   :config
