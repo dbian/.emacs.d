@@ -288,11 +288,13 @@
   )
 
 (if (display-graphic-p)
-    (use-package eldoc-box
-      :ensure t
-      :config
-      (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
-      )
+    (progn
+      (message "todo: eldoc")
+      ;; (use-package eldoc-box
+      ;; 	:ensure t
+      ;; 	:config
+      ;; 	(add-hook 'prog-mode-hook #'eldoc-box-hover-at-point-mode t)
+      ;; 	))
   (progn
     (message "terminal mode will fallback eldoc ui to original")
     ;; (use-package sideline
