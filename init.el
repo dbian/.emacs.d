@@ -73,7 +73,7 @@
  '(org-display-remote-inline-images 'cache)
  '(org-hide-leading-stars t)
  '(package-selected-packages
-   '(monokai-theme cyberpunk-theme alert-toast alert undo-tree hl-block-mode rainbow-delimiters vc-use-package ein jupyter golden-ratio hackernews org-modern org-download consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(corfu-terminal corfu monokai-theme cyberpunk-theme alert-toast alert undo-tree hl-block-mode rainbow-delimiters vc-use-package ein jupyter golden-ratio hackernews org-modern org-download consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline-eldoc sideline eldoc-box racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
    '((burly.el :vc-backend Git :url "https://github.com/alphapapa/burly.el.git")
      (sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
@@ -108,11 +108,37 @@
 (load "init-org")
 (load "init-tabline")
 
-(use-package company
-  :config (global-company-mode))
+;; (use-package company
+;;   :config (global-company-mode))
 
-(use-package company-box
-  :config (add-hook 'company-mode-hook 'company-box-mode))
+;; (use-package company-box
+;;   :config (add-hook 'company-mode-hook 'company-box-mode))
+
+(use-package corfu
+  ;; Optional customizations
+  :custom
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+  ;; Enable Corfu only for certain modes.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+  ;; be used globally (M-/).  See also the customization variable
+  ;; `global-corfu-modes' to exclude certain modes.
+  :init
+  (global-corfu-mode))
+
+(use-package corfu-terminal)
 
 ;; window management
 (use-package ace-window
@@ -148,29 +174,6 @@
 ;;   :ensure t
 ;;   :defer t
 ;;   :hook (python-mode . eglot-ensure))
-(use-package lsp-mode
-  :ensure t
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
-  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (python-mode . lsp)
-         (racket-mode . lsp)
-         ;; if you want which-key integration
-         (lsp-mode . lsp-enable-which-key-integration))
-  :config
-  (use-package lsp-pyright
-    :ensure t
-    :hook (python-mode . (lambda ()
-                           (require 'lsp-pyright)
-                           (lsp))))	; or lsp-deferred
-  :commands lsp)
-
-;; optionally
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
-
 ;; (use-package lsp-mode
 ;;   :ensure t
 ;;   :init
@@ -178,17 +181,30 @@
 ;;   (setq lsp-keymap-prefix "C-c l")
 ;;   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
 ;;          (python-mode . lsp)
+;;          (racket-mode . lsp)
 ;;          ;; if you want which-key integration
 ;;          (lsp-mode . lsp-enable-which-key-integration))
+;;   :config
+;;   (use-package lsp-pyright
+;;     :ensure t
+;;     :hook (python-mode . (lambda ()
+;;                            (require 'lsp-pyright)
+;;                            (lsp))))	; or lsp-deferred
 ;;   :commands lsp)
 
-(use-package hl-block-mode
-  :commands (hl-block-mode)
-  :config
-  (setq hl-block-bracket nil)    ;; Match all brackets.
-  (setq hl-block-single-level t) ;; Only one pair of brackets.
-  (setq hl-block-style 'bracket) ;; Highlight only the brackets.
-  :hook ((prog-mode) . hl-block-mode))
+;; optionally
+;; (use-package lsp-ui
+;;   :ensure t
+;;   :commands lsp-ui-mode)
+
+
+;; (use-package hl-block-mode
+;;   :commands (hl-block-mode)
+;;   :config
+;;   (setq hl-block-bracket nil)    ;; Match all brackets.
+;;   (setq hl-block-single-level t) ;; Only one pair of brackets.
+;;   (setq hl-block-style 'bracket) ;; Highlight only the brackets.
+;;   :hook ((prog-mode) . hl-block-mode))
 
 					; python
 (use-package exec-path-from-shell
