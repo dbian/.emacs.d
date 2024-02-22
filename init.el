@@ -76,7 +76,7 @@
  '(org-display-remote-inline-images 'cache)
  '(org-hide-leading-stars t)
  '(package-selected-packages
-   '(go-mode yaml-mode sideline-eldoc sideline-eglot eldoc-box corfu-terminal corfu monokai-theme cyberpunk-theme alert-toast alert undo-tree hl-block-mode rainbow-delimiters vc-use-package ein jupyter golden-ratio hackernews org-modern org-download consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode sideline racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
+   '(go-mode yaml-mode corfu-terminal corfu monokai-theme cyberpunk-theme alert-toast alert undo-tree hl-block-mode rainbow-delimiters vc-use-package ein jupyter golden-ratio hackernews org-modern org-download consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode racket-mode expand-region pet company-box git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign company tabby-mode))
  '(package-vc-selected-packages
    '((burly.el :vc-backend Git :url "https://github.com/alphapapa/burly.el.git")
      (sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
@@ -509,10 +509,10 @@
 ;;       (default-input-method "rime")))
 
 
-(use-package undo-tree
-  :config
-  (global-undo-tree-mode)
-  )
+;; (use-package undo-tree
+;;   :config
+;;   (global-undo-tree-mode)
+;;   )
 
 ;; notify
 
