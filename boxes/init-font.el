@@ -9,8 +9,8 @@
 (let ((font-ch (cond
 		((eq system-type 'windows-nt)
 		 (cond
-		  ((member "Microsoft YaHei" (font-family-list)) "Microsoft YaHei")
-		  ((member "SimHei" (font-family-list)) "SimHei")))
+		  ((member "微软雅黑" (font-family-list)) "微软雅黑")
+		  ))
 		((eq system-type 'darwin)
 		 (cond
 		  ((member "Hei" (font-family-list)) "Hei")
@@ -42,5 +42,5 @@
 ;; 你好，世界
 ;; abcdefgh
 ;;(max/set-font "JetBrains Mono" "Microsoft YaHei" 14 1.5);; todo, 有效的只是下面这段代码，这里的1.5没有效果，有空整改一下
-(setq face-font-rescale-alist '(("微软雅黑" . 1.2) ("Microsoft Yahei" . 1.2) ("WenQuanYi Zen Hei" . 1.2)
+(setq face-font-rescale-alist '(("微软雅黑" . 1.2) ("WenQuanYi Micro Hei" . 1.2)
 				("Hei" . 1.2)))
