@@ -4,6 +4,7 @@
  ((member "JetBrains Mono" (font-family-list)) (progn
 						 (message "set ascii font")
 						 (set-frame-font "JetBrains Mono")
+						 (set-face-attribute 'default nil :font (font-spec :name "JetBrains Mono" :size 14))
 						 )))
 ;; set font for chinese
 (let ((font-ch (cond
