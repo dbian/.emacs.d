@@ -10,7 +10,6 @@
 		((eq system-type 'windows-nt)
 		 (cond
 		  ((member "Microsoft YaHei" (font-family-list)) "Microsoft YaHei")
-		  ((member "Microsoft JhengHei" (font-family-list)) "Microsoft JhengHei")
 		  ((member "SimHei" (font-family-list)) "SimHei")))
 		((eq system-type 'darwin)
 		 (cond
