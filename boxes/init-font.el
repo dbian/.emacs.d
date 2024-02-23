@@ -1,47 +1,29 @@
-;; set for unicode
+;; -*- lexical-binding: t; -*-
 
-(cond
- ((member "JetBrains Mono" (font-family-list)) (progn
-						 (message "set ascii font")
-						 (set-frame-font "JetBrains Mono")
-						 (set-face-attribute 'default nil :font (font-spec :name "JetBrains Mono" :size 14))
-						 )))
+;; set for en
+(let* ((prefered-ordered-ch-font-list '("JetBrains Mono" "Menlo" "Consolas"))
+       (font-list (font-family-list))
+       (font-en (seq-find (lambda (f) (member f font-list)) prefered-ordered-ch-font-list)))
+  (message (format "set ascii font to %s" font-en))
+  ;; (set-frame-font font-en)
+  (set-face-attribute 'default nil :font (font-spec :name font-en :size 14))
+  )
+
+
 ;; set font for chinese
-(let ((font-ch (cond
-		((eq system-type 'windows-nt)
-		 (cond
-		  ((member "微软雅黑" (font-family-list)) "微软雅黑")
-		  ))
-		((eq system-type 'darwin)
-		 (cond
-		  ((member "Hei" (font-family-list)) "Hei")
-		  ((member "Heiti SC" (font-family-list)) "Heiti SC")
-		  ((member "Heiti TC" (font-family-list)) "Heiti TC")))
-		((eq system-type 'gnu/linux)
-		 (cond
-		  ((member "WenQuanYi Micro Hei" (font-family-list)) "WenQuanYi Micro Hei"))))))
+(let* ((prefered-ordered-ch-font-list '("微软雅黑" "Hei" "WenQuanYi Micro Hei"))
+       (font-list (font-family-list))
+       (font-ch (seq-find (lambda (f) (member f font-list)) prefered-ordered-ch-font-list)))
+  (message (format "set ch font to %s" font-ch))
   (dolist (charset '(kana han symbol cjk-misc bopomofo))
     (set-fontset-font
      t
      charset
      font-ch
-     )))
-
-;; (set-face-attribute 'default nil :height 110)
-
-;; (defun max/set-font (FONT-NAME CN-FONT-NAME &optional INITIAL-SIZE CN-FONT-RESCALE-RATIO)
-;;   "Set different font-family for Latin and Chinese charactors."
-;;   (let* ((size (or INITIAL-SIZE 14))
-;; 	 (ratio (or CN-FONT-RESCALE-RATIO 0.0))
-;; 	 (main (font-spec :name FONT-NAME :size size))
-;; 	 (cn (font-spec :name CN-FONT-NAME)))
-;;     (set-face-attribute 'default nil :font main)
-;;     (dolist (charset '(kana han symbol cjk-misc bopomofo))
-;;       (set-fontset-font t charset cn))
-;;     (setq face-font-rescale-alist (if (/= ratio 0.0) `((,CN-FONT-NAME . ,ratio)) nil))))
+     ))
+  (setq face-font-rescale-alist `((,font-ch . 1.2)))
+  )
 
 ;; 你好，世界
 ;; abcdefgh
-;;(max/set-font "JetBrains Mono" "Microsoft YaHei" 14 1.5);; todo, 有效的只是下面这段代码，这里的1.5没有效果，有空整改一下
-(setq face-font-rescale-alist '(("微软雅黑" . 1.2) ("WenQuanYi Micro Hei" . 1.2)
-				("Hei" . 1.2)))
+
