@@ -493,6 +493,7 @@
 (when (eq window-system 'w32)
   (setq tramp-default-method "plinkx")
   (setq explicit-shell-file-name "/bin/zsh")
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   )
 
 ;; modeline beauty
