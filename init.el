@@ -492,9 +492,7 @@
 
 (when (eq window-system 'w32)
   (setq tramp-default-method "plinkx")
-  (add-to-list 'tramp-connection-properties
-             (list (regexp-quote "/plinkx:home:")
-                   "remote-shell" "/bin/zsh"))
+  (setq explicit-shell-file-name "/bin/zsh")
   )
 
 ;; modeline beauty
