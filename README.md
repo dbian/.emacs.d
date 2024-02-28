@@ -14,4 +14,9 @@ I like vanilla emacs.
 
 ![](./screenshot.png)
 
+| 测试字体对齐      | hello        |
+|-------------------|--------------|
+| 你好，I like lisp | lisp rocks！ |
+
+
 # Suggestions welcomed
