@@ -366,7 +366,7 @@
 (use-package llama-cpp
   :ensure t
   :init
-  (setq llama-cpp-host "192.168.31.67")
+  (setq llama-cpp-host "192.168.50.231")
   (setq llama-cpp-port 58870)
   ;; mixtral
   (setq llama-cpp-chat-prompt "")
@@ -395,7 +395,7 @@
 ; tabby
 (use-package tabby-mode
   :init
-  (setq tabby-api-url "http://192.168.31.67:58880")
+  (setq tabby-api-url "http://192.168.50.231:58880")
   (add-hook 'prog-mode-hook #'tabby-mode)
   )
 
@@ -494,25 +494,6 @@
   (setq explicit-shell-file-name "/bin/zsh")
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   )
-
-;; modeline beauty
-;; (use-package doom-modeline
-;;   :ensure t
-;;   :hook (after-init . doom-modeline-mode))
-;; (setq doom-modeline-icon nil)
-;; (setq doom-modeline-minor-modes t)
-
-;; (if
-;;     (eq system-type 'gnu/linux)
-;;     (use-package rime
-;;       :custom
-;;       (default-input-method "rime")))
-
-
-;; (use-package undo-tree
-;;   :config
-;;   (global-undo-tree-mode)
-;;   )
 
 ;; notify
 
