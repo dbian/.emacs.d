@@ -27,3 +27,5 @@ bookmarks
 *.lock
 /.cache/
 .#*
+/hackernews/
+/racket-mode/
