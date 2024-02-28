@@ -491,6 +491,8 @@
   ;; )
 
 (when (eq window-system 'w32)
+  (require 'tramp)
+  (message "config tramp for windows")
   (setq tramp-default-method "plinkx")
   (setq explicit-shell-file-name "/bin/zsh")
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
