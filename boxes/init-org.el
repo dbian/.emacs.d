@@ -86,10 +86,10 @@
 ;; (setq org-directory "~/ws/dev-diary")
 
 
-(defun add-schedule-to-new-todo ()
-  "Function to add schedule timestamp to new todo."  
-    (when (equal org-state "TODO")
-       (org-schedule nil (with-temp-buffer (org-time-stamp '(16)) (buffer-string)))))
+;; (defun add-schedule-to-new-todo ()
+;;   "Function to add schedule timestamp to new todo."  
+;;     (when (equal org-state "TODO")
+;;        (org-schedule nil (with-temp-buffer (org-time-stamp '(16)) (buffer-string)))))
 
 (add-hook 'org-after-todo-state-change-hook 'add-schedule-to-new-todo)
 
