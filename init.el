@@ -68,9 +68,10 @@
  '(org-display-remote-inline-images 'cache)
  '(org-hide-leading-stars t)
  '(package-selected-packages
-   '(tagedit go-mode yaml-mode corfu-terminal corfu monokai-theme cyberpunk-theme alert-toast alert undo-tree hl-block-mode rainbow-delimiters ein jupyter golden-ratio hackernews org-modern org-download consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode racket-mode expand-region pet git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign tabby-mode))
+   '(tabby.el tagedit go-mode yaml-mode corfu-terminal corfu monokai-theme cyberpunk-theme alert-toast alert undo-tree hl-block-mode rainbow-delimiters ein jupyter golden-ratio hackernews org-modern org-download consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode racket-mode expand-region pet git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign))
  '(package-vc-selected-packages
-   '((tabby-mode :vc-backend Git :url "https://github.com/dbian/tabby-mode.git")
+   '((tabby.el :vc-backend Git :url "https://github.com/dbian/tabby.el.git")
+     (tabby-mode :vc-backend Git :url "https://github.com/dbian/tabby-mode.git")
      (burly.el :vc-backend Git :url "https://github.com/alphapapa/burly.el.git")
      (sideline-eldoc :vc-backend Git :url "https://github.com/ginqi7/sideline-eldoc")
      (vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
