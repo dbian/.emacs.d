@@ -503,4 +503,4 @@
 (use-package alert-toast
   :after alert)
 
-(add-to-list 'process-coding-system-alist '("rg" utf-8 . gbk)
+(add-to-list 'process-coding-system-alist '("rg" utf-8 . gbk))
