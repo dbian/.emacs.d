@@ -31,7 +31,7 @@
 
 (set-language-environment 'UTF-8)
 (set-locale-environment "UTF-8")
-
+(prefer-coding-system 'utf-8)
 
 (setq truncate-lines nil)
 
@@ -503,3 +503,4 @@
 (use-package alert-toast
   :after alert)
 
+(add-to-list 'process-coding-system-alist '("rg" utf-8 . gbk)
