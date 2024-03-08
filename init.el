@@ -362,36 +362,6 @@
 
 
 
-;; llama cpp server的集成
-(use-package llama-cpp
-  :ensure t
-  :init
-  (setq llama-cpp-host "192.168.50.231")
-  (setq llama-cpp-port 58870)
-  ;; mixtral
-  (setq llama-cpp-chat-prompt "")
-  (setq llama-cpp-chat-prompt-prefix "<s> ")
-  (setq llama-cpp-chat-input-prefix "[INST] ")
-  (setq llama-cpp-chat-input-suffix " [/INST]")
-
-  ;; zephyr
-;;   (setq llama-cpp-chat-input-prefix "<|user|>
-;; ")
-;;   (setq llama-cpp-chat-input-suffix "</s>
-;; <|assistant|>
-;; ")
-
-;;   (setq llama-cpp-chat-prompt "<|system|>
-;; </s>
-;; "
-;; )
-  :config
-  (bind-key "C-c s" 'llama-cpp-chat-start)
-  (bind-key "C-c C-s" 'llama-cpp-cancel)
-  (bind-key "C-c RET" 'llama-cpp-chat-answer)
-  (bind-key "C-c t" 'llama-cpp-code-region-task)
-  )
-
 ; tabby
 (use-package tabby-mode
   :init
