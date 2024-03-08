@@ -68,7 +68,7 @@
  '(org-display-remote-inline-images 'cache)
  '(org-hide-leading-stars t)
  '(package-selected-packages
-   '(ellama tabby-mode tabby.el tagedit go-mode yaml-mode corfu-terminal corfu monokai-theme cyberpunk-theme alert-toast alert undo-tree hl-block-mode rainbow-delimiters ein jupyter golden-ratio hackernews org-modern org-download consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode racket-mode expand-region pet git-gutter llama-cpp magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign))
+   '(ellama tagedit go-mode yaml-mode corfu-terminal corfu monokai-theme cyberpunk-theme alert-toast alert undo-tree hl-block-mode rainbow-delimiters ein jupyter golden-ratio hackernews org-modern org-download consult gnuplot solarized-theme graphviz-dot-mode d2-mode rg exec-path-from-shell python-isort python-black python-pytest dired-sidebar elsa flymake-elsa lsp-pyright lsp-ui lsp-mode racket-mode expand-region pet git-gutter magit olivetti paredit v2ex-mode which-key cider geiser-chibi ace-window vertico orderless marginalia dumb-jump valign))
  '(package-vc-selected-packages
    '((tabby.el :vc-backend Git :url "https://github.com/dbian/tabby.el.git")
      (tabby-mode :vc-backend Git :url "https://github.com/dbian/tabby-mode.git")
@@ -360,14 +360,6 @@
   (insert (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)))
   )
 
-
-
-; tabby
-(use-package tabby-mode
-  :init
-  (setq tabby-api-url "http://192.168.50.231:58880")
-  (add-hook 'prog-mode-hook #'tabby-mode)
-  )
 
 ; side tree
 (use-package dired-sidebar
