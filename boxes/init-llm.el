@@ -23,7 +23,8 @@
   ;; You shouldn't add ollama providers here - it can be selected interactively
   ;; without it. It is just example.
   (setopt ellama-providers
-	  '(("zephyr" . (define-llm-model "zephyr:7b"))
+	  '(("qwen" . (define-llm-model "qwen:7b-chat"))
+	    ("zephyr" . (define-llm-model "zephyr:7b"))
 	    ("mistral" . (define-llm-model "mistral:7b-instruct-v0.2-q4_0"))
 	    ("mixtral" . (define-llm-model "mixtral:8x7b-instruct-v0.1-q5_0"))))
   ;; Naming new sessions with llm
