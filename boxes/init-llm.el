@@ -23,13 +23,21 @@
   ;; You shouldn't add ollama providers here - it can be selected interactively
   ;; without it. It is just example.
   (setopt ellama-providers
-	  '(("qwen" . (define-llm-model "qwen:14b"))
-	    ("zephyr" . (define-llm-model "zephyr:7b"))
-	    ("mistral" . (define-llm-model "mistral:7b-instruct-v0.2-q4_0"))
-	    ("mixtral" . (define-llm-model "mixtral:8x7b-instruct-v0.1-q5_0"))))
+	  '(("llama3" . (define-llm-model "llama3"))
+	    ))
   ;; Naming new sessions with llm
   (setopt ellama-naming-provider
-	  (define-llm-model "mistral:7b-instruct-v0.2-q4_0"))
+	  (define-llm-model "llama3"))
   (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
   ;; Translation llm provider
-  (setopt ellama-translation-provider (define-llm-model "mistral:7b-instruct-v0.2-q4_0")))
+  (setopt ellama-translation-provider (define-llm-model "llama3")))
+
+
+;; Groq offers an OpenAI compatible API
+(gptel-make-openai "Groq"               ;Any name you want
+  :host "api.groq.com"
+  :endpoint "/openai/v1/chat/completions"
+  :stream t
+  :key "your-api-key"                   ;can be a function that returns the key
+  :models '(
+            "llama3-70b-8192"))
