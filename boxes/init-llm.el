@@ -43,9 +43,11 @@
         (list :key (cdr (assoc 'api-key config))
               :models (cdr (assoc 'models config)))))))
 
-(gptel-make-openai "Groq"
-  :host "api.groq.com"
-  :endpoint "/openai/v1/chat/completions"
-  :stream t
-  :key (nth 1 (groq-get-config))
-  :models  (list (nth 3 (groq-get-config))))
+(setq gptel-model (nth 3 (groq-get-config)))
+(setq gptel-backend
+ (gptel-make-openai "Groq"
+   :host "api.groq.com"
+   :endpoint "/openai/v1/chat/completions"
+   :stream t
+   :key (nth 1 (groq-get-config))
+   :models  (list (nth 3 (groq-get-config)))))
