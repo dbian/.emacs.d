@@ -32,6 +32,7 @@
   ;; Translation llm provider
   (setopt ellama-translation-provider (define-llm-model "llama3")))
 
+(use-package gptel)
 
 ;; Groq offers an OpenAI compatible API
 (gptel-make-openai "Groq"               ;Any name you want
