@@ -34,11 +34,18 @@
 
 (use-package gptel)
 
-;; Groq offers an OpenAI compatible API
-(gptel-make-openai "Groq"               ;Any name you want
+
+(defun groq-get-config ()
+  "Read Groq config from ~/.groq.json"
+  (let ((config-file (expand-file-name "~/.groq.json")))
+    (when (file-exists-p config-file)
+      (let ((config (json-read-file config-file)))
+        (list :key (cdr (assoc 'api-key config))
+              :models (cdr (assoc 'models config)))))))
+
+(gptel-make-openai "Groq"
   :host "api.groq.com"
   :endpoint "/openai/v1/chat/completions"
   :stream t
-  :key "your-api-key"                   ;can be a function that returns the key
-  :models '(
-            "llama3-70b-8192"))
+  :key (nth 1 (groq-get-config))
+  :models  (list (nth 3 (groq-get-config))))
